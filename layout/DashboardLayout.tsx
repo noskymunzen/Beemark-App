@@ -10,12 +10,14 @@ export interface DashboardLayoutProps {
   children: any;
   title: string;
   namePage: string;
+  headerComponent: any;
 }
 
 const DashboardLayout = ({
   children,
   title,
   namePage,
+  headerComponent,
 }: DashboardLayoutProps) => {
   const headTitle = useMemo(() => {
     return title ? `${title} :: BEEMARK` : "BEEMARK";
@@ -29,7 +31,9 @@ const DashboardLayout = ({
         <title>{headTitle}</title>
       </Head>
       <Flex flexDirection="column" justifyContent="space-between">
-        <Header onOpen={onOpen} namePage={namePage} />
+        <Header onOpen={onOpen} namePage={namePage}>
+          {headerComponent}
+        </Header>
         <DrawerMenu isOpen={isOpen} onClose={onClose} />
         <Flex
           flexDirection="column"

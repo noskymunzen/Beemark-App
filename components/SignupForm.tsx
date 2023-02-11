@@ -6,7 +6,7 @@ interface SignupFormProps {
   setSignupValues: () => void;
 }
 
-const SignupForm = ({ signupValues, setSignupValues }) => {
+const SignupForm = ({ signupValues, setSignupValues, postSignin }) => {
   return (
     <BoxForm title=" User Register">
       <FormControl>
@@ -45,26 +45,13 @@ const SignupForm = ({ signupValues, setSignupValues }) => {
           }}
         />
       </FormControl>
-      <FormControl>
-        <FormLabel mt="1rem">Confirm Password</FormLabel>
-        <Input
-          type="password"
-          placeholder="Confirm password"
-          value={signupValues?.confirmPass}
-          onChange={(e) => {
-            setSignupValues({
-              ...signupValues,
-              ["confirmPass"]: e.target.value,
-            });
-          }}
-        />
-      </FormControl>
       <Button
         mt="1rem"
         color="white"
         bg="#0987A0"
         _hover={{ backgroundColor: "#086F83" }}
         type="submit"
+        onClick={postSignin}
       >
         Sign in
       </Button>

@@ -1,7 +1,7 @@
 import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import BoxForm from "./BoxForm";
 
-const LoginForm = ({ loginValues, setLoginValues }) => {
+const ResetPassForm = ({ loginValues, setLoginValues }) => {
   return (
     <BoxForm title="Reset password">
       <FormControl display="flex" mt="1rem">
@@ -29,4 +29,4 @@ const LoginForm = ({ loginValues, setLoginValues }) => {
   );
 };
 
-export default LoginForm;
+export default ResetPassForm;

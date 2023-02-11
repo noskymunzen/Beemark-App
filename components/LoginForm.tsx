@@ -1,7 +1,7 @@
 import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import BoxForm from "./BoxForm";
 
-const LoginForm = ({ loginValues, setLoginValues }) => {
+const LoginForm = ({ loginValues, setLoginValues, postLogin }) => {
   return (
     <BoxForm title="User Login">
       <>
@@ -33,6 +33,7 @@ const LoginForm = ({ loginValues, setLoginValues }) => {
           bg="#0987A0"
           _hover={{ backgroundColor: "#086F83" }}
           type="submit"
+          onClick={postLogin}
         >
           Login
         </Button>

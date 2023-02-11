@@ -1,8 +1,10 @@
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
+  Button,
   Flex,
   HStack,
   Icon,
+  Image,
   Menu,
   MenuButton,
   MenuItem,
@@ -11,13 +13,15 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { FiLogOut, FiMoon, FiSettings, FiUser } from "react-icons/fi";
+import { useRouter } from "next/router";
+import { FiLogOut, FiMoon, FiSettings } from "react-icons/fi";
 
 export interface HeaderProps {
   btnRef: () => void;
   onOpen: () => void;
   namePage: string;
   userName: string;
+  children: any;
   // nameSection: string;
   // onClickHome: () => void;
   // onClickHabits: () => void;
@@ -28,10 +32,18 @@ const Header = ({
   onOpen,
   namePage = "Summary",
   userName = "Ninoska",
+  children,
 }: // Ninoska
 // onClickHabits,
 // nameSection,
 HeaderProps) => {
+  const router = useRouter();
+
+  const onLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/auth/login");
+  };
+
   return (
     <Flex
       minW="100vw"
@@ -44,7 +56,15 @@ HeaderProps) => {
       justifyContent={{ base: "flex-start", md: "space-between" }}
     >
       <Link href="/">
-        <Text
+        <Image
+          display={{ base: "none", md: "block" }}
+          mt="1px"
+          height="60px"
+          objectFit="contain"
+          src="/beemark.png"
+          minW="271px"
+        />
+        {/* <Text
           color="#F0F8FF"
           fontWeight="bold"
           ml="3rem"
@@ -53,7 +73,7 @@ HeaderProps) => {
           minW="271px"
         >
           BEEMARK
-        </Text>
+        </Text> */}
       </Link>
       <Icon
         ml="1.5rem"
@@ -66,19 +86,22 @@ HeaderProps) => {
         color="white"
         boxSize="20px"
       />
-      <Flex justifyContent="center" width={{ base: "70vw", md: "700px" }}>
-        <Text
-          color="#F0F8FF"
-          fontWeight="bold"
-          ml="1.5rem"
-          display={{ base: "block", md: "none" }}
-          fontSize="20px"
-        >
-          {namePage}
-        </Text>
-      </Flex>
+      {namePage && (
+        <Flex justifyContent="center" width={{ base: "70vw", md: "700px" }}>
+          <Text
+            color="#F0F8FF"
+            fontWeight="bold"
+            ml="1.5rem"
+            display={{ base: "block", md: "none" }}
+            fontSize="20px"
+          >
+            {namePage}
+          </Text>
+        </Flex>
+      )}
+      {children}
       <Flex
-        gap={10}
+        gap={5}
         minW="271px"
         mr="3rem"
         display={{ base: "none", md: "flex" }}
@@ -89,11 +112,20 @@ HeaderProps) => {
           <Switch colorScheme="teal" size="md" />
         </HStack>
         <Menu isLazy>
-          <MenuButton>
-            <HStack>
-              <Icon color="#F0F8FF" as={FiUser} boxSize="20px" />
-              <Text color="#F0F8FF">Hello {userName}!</Text>
-            </HStack>
+          <MenuButton
+            as={Button}
+            variant="outline"
+            border="none"
+            color="#F0F8FF"
+            bg="#0987A0"
+            _hover={{ bg: "#0987A0" }}
+            _expanded={{ bg: "#0987A0" }}
+            fontSize="18px"
+            rightIcon={<ChevronDownIcon boxSize="22px" />}
+          >
+            {/* <Icon color="#F0F8FF" as={FiUser} />
+            <Text color="#F0F8FF">Hello {userName}!</Text> */}
+            Hello {userName}!
           </MenuButton>
           <MenuList>
             <Link href="settings">
@@ -104,13 +136,11 @@ HeaderProps) => {
                 </HStack>
               </MenuItem>
             </Link>
-            <MenuItem>
-              <Link href="/">
-                <HStack>
-                  <Icon as={FiLogOut} />
-                  <Text>Logout</Text>
-                </HStack>
-              </Link>
+            <MenuItem onClick={() => onLogout()}>
+              <HStack>
+                <Icon as={FiLogOut} />
+                <Text>Logout</Text>
+              </HStack>
             </MenuItem>
           </MenuList>
         </Menu>

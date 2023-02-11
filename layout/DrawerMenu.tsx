@@ -6,8 +6,10 @@ import {
   DrawerOverlay,
   Flex,
   Icon,
+  Image,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useRef } from "react";
 import { FiHome, FiLogOut, FiMoon, FiSettings } from "react-icons/fi";
 
@@ -19,6 +21,13 @@ export interface DrawerProps {
 const DrawerMenu = ({ isOpen, onClose }: DrawerProps) => {
   const btnRef = useRef<HTMLButtonElement>(null);
 
+  const router = useRouter();
+
+  const onLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/auth/login");
+  };
+
   return (
     <Drawer
       isOpen={isOpen}
@@ -29,7 +38,16 @@ const DrawerMenu = ({ isOpen, onClose }: DrawerProps) => {
       <DrawerOverlay></DrawerOverlay>
 
       <DrawerContent maxWidth="70px">
-        <DrawerBody>
+        <Flex bg="#0987A0" height="63px" width="100%" alignItems="center">
+          <Image
+            src="/logo.png"
+            objectFit="contain"
+            height="40px"
+            width="100%"
+          />
+        </Flex>
+
+        <DrawerBody pt="0">
           <Icon
             left="60px"
             top="1.2rem"
@@ -42,6 +60,7 @@ const DrawerMenu = ({ isOpen, onClose }: DrawerProps) => {
             color="gray.300"
             onClick={onClose}
           />
+
           <Flex
             flexDirection="column"
             gap="2rem"
@@ -49,7 +68,7 @@ const DrawerMenu = ({ isOpen, onClose }: DrawerProps) => {
             height="100%"
             py="1rem"
           >
-            <Link href="/home">
+            <Link href="/">
               <Icon width="20px" height="20px" as={FiHome} />
             </Link>
 
@@ -58,9 +77,13 @@ const DrawerMenu = ({ isOpen, onClose }: DrawerProps) => {
               <Link href="/settings">
                 <Icon width="20px" height="20px" as={FiSettings} />
               </Link>
-              <Link href="/logout">
-                <Icon width="20px" height="20px" as={FiLogOut} />
-              </Link>
+
+              <Icon
+                width="20px"
+                height="20px"
+                as={FiLogOut}
+                onClick={onLogout}
+              />
             </Flex>
           </Flex>
         </DrawerBody>

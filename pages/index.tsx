@@ -1,162 +1,268 @@
-import BookmarkCards from "@/components/BookmarkCards";
+import BookmarkCard from "@/components/BookmarkCard";
 import BookmarkModal from "@/components/BookmarkModal";
+import DeletAlert from "@/components/DeleteAlert";
+import WithAuthentication from "@/hoc/WithAuthentication";
 import DashboardLayout from "@/layout/DashboardLayout";
-import { AddIcon } from "@chakra-ui/icons";
-import { Button, Container, IconButton, useDisclosure } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { FiMoreVertical } from "react-icons/fi";
+import $bookmark from "@/services/bookmark/bookmark.service";
+import { Bookmark } from "@/types";
+import { AddIcon, CloseIcon, Search2Icon } from "@chakra-ui/icons";
 
-export default function Home() {
-  const [newValues, setNewValues] = useState({
+import {
+  Flex,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+  SimpleGrid,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { useEffect, useRef, useState } from "react";
+import { useQuery } from "react-query";
+
+const Home = () => {
+  const [search, setSearch] = useState("");
+  const [editing, setEditing] = useState(false);
+  const [bookmarkValues, setBookmarkValues] = useState<Bookmark>({
     url: "",
     title: "",
     excerpt: "",
     tags: [],
   });
-  const [currentValues, setCurrentValues] = useState({
-    url: "https://chakra-ui.com/og-image.png",
-    title: "chakra UI",
-    excerpt:
-      "Chakra UI is a simple, modular and accessible component library that gives you the building blocks you need to build your React applications.",
-    tags: ["framework ui", "development", "learning"],
-  });
-  const [copyCurrentValues, setCopyCurrentValues] = useState({});
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
-    isOpen: isOpenAdd,
-    onOpen: onOpenAdd,
-    onClose: onCloseAdd,
+    isOpen: isOpenAlert,
+    onOpen: onOpenAlert,
+    onClose: onCloseAlert,
   } = useDisclosure();
-  const {
-    isOpen: isOpenEdit,
-    onOpen: onOpenEdit,
-    onClose: onCloseEdit,
-  } = useDisclosure();
+  const cancelRef = useRef();
 
-  const addInTags = (value, typeValues) => {
+  const onAddTag = (value: string) => {
     if (value === "") return;
-    if (typeValues === "newValues") {
-      setNewValues({
-        ...newValues,
-        tags: [...new Set([...newValues.tags, value])],
-      });
-      return;
-    }
-    setCurrentValues({
-      ...currentValues,
-      tags: [...new Set([...currentValues.tags, value])],
+    setBookmarkValues({
+      ...bookmarkValues,
+      tags: [...new Set([...bookmarkValues.tags, value])],
     });
   };
 
-  const removeInTags = (value, typeValues) => {
-    if (typeValues === "newValues") {
-      setNewValues({
-        ...newValues,
-        tags: [...newValues.tags].filter((tag) => tag !== value),
-      });
-      return;
-    }
-    setCurrentValues({
-      ...currentValues,
-      tags: [...currentValues.tags].filter((tag) => tag !== value),
+  const onRemoveTag = (value: string) => {
+    setBookmarkValues({
+      ...bookmarkValues,
+      tags: [...bookmarkValues.tags].filter((tag) => tag !== value),
     });
   };
 
-  const revertValues = () => {
-    setCurrentValues(copyCurrentValues);
+  const onChangeValue = (key: string, value: string) => {
+    setBookmarkValues({
+      ...bookmarkValues,
+      [key]: value,
+    });
   };
 
-  // useEffect(() => {
-  //   console.log(newValues);
-  // }, [newValues]);
-  // useEffect(() => {
-  //   console.log(currentValues);
-  // }, [currentValues]);
+  const onCancel = () => {
+    onClose();
+    if (editing) {
+      setBookmarkValues({
+        url: "",
+        title: "",
+        excerpt: "",
+        tags: [],
+      });
+    }
+  };
+  const onBookmarkEdit = (bookmark: Bookmark, i: number) => {
+    setBookmarkValues({ ...bookmark });
+    setCurrentIndex(i);
+    setEditing(true);
+    onOpen();
+  };
+  const onBookmarkDelete = (index: number) => {
+    setCurrentIndex(index);
+    onOpenAlert();
+  };
+
+  const onBookmarkAdd = () => {
+    setEditing(false);
+    onOpen();
+  };
+  const queryPostBookmark = useQuery(
+    "postCreateBookmark",
+    () => $bookmark.postCreateBookmark(bookmarkValues),
+    {
+      enabled: false,
+      onSuccess: (res) => {
+        console.log(res.data);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
+
+  const queryGetBookmark = useQuery(
+    "getBookmark",
+    () => $bookmark.getBookmark(search),
+    {
+      enabled: false,
+      onSuccess: (res) => {
+        setBookmarks(res.data);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
+
+  const queryPutBookmark = useQuery(
+    "putBookmark",
+    () =>
+      $bookmark.putBookmark(bookmarks.at(currentIndex)!._id!, bookmarkValues),
+    {
+      enabled: false,
+      onSuccess: (res) => {
+        console.log(res);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
+
+  const queryDeleteBookmark = useQuery(
+    "deleteBookmark",
+    () => $bookmark.deleteBookmark(bookmarks.at(currentIndex)!._id!),
+    {
+      enabled: false,
+      onSuccess: async () => {
+        await queryGetBookmark.refetch();
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
+
+  const onDeleteCancel = () => {
+    setCurrentIndex(-1);
+    onCloseAlert();
+  };
+
+  const onDeleteConfirm = async () => {
+    await queryDeleteBookmark.refetch();
+    onDeleteCancel();
+  };
+
+  const onSaveForm = async () => {
+    editing
+      ? await queryPutBookmark.refetch()
+      : await queryPostBookmark.refetch();
+  };
+
+  const getBookmark = async () => {
+    await queryGetBookmark.refetch();
+  };
+
   useEffect(() => {
-    setCopyCurrentValues(currentValues);
-    console.log(copyCurrentValues);
+    getBookmark();
   }, []);
-  // useEffect(() => {
-  //   console.log(copyCurrentValues);
-  // }, [currentValues]);
 
   return (
-    <>
-      <DashboardLayout title="" namePage="BEEMARK">
-        <Container maxW="container.xl" display="flex" justifyContent="flex-end">
-          <Button
-            rightIcon={<AddIcon />}
-            bg="#0987A0"
-            _hover={{ bg: "#086F83" }}
-            color="white"
-            onClick={onOpenAdd}
-            display={{ base: "none", md: "flex" }}
-          >
-            Bookmark{" "}
-          </Button>
-        </Container>
-
+    <WithAuthentication>
+      <DashboardLayout
+        title="Home"
+        namePage=""
+        headerComponent={
+          <>
+            <Flex
+              gap="5"
+              position="fixed"
+              left={{ base: "17%", md: "25%" }}
+              right={{ base: "10%", md: "25%" }}
+              alignItems="center"
+            >
+              <InputGroup maxW="650px">
+                <InputRightElement
+                  color="#F0F8FF"
+                  //ref={scrollRef}
+                >
+                  {search === "" ? (
+                    <Search2Icon />
+                  ) : (
+                    <IconButton
+                      aria-label=""
+                      size="xs"
+                      icon={<CloseIcon />}
+                      //onClick={onCleanInput}
+                    />
+                  )}
+                </InputRightElement>
+                <Input
+                  color="#F0F8FF"
+                  //ref={inputRef}
+                  //disabled={skeleton}
+                  borderColor="#F0F8FF"
+                  focusBorderColor="#F0F8FF"
+                  type="text"
+                  placeholder="Type tags, title, url"
+                  _placeholder={{ color: "#CBD5E0" }}
+                  //onChange={() => onChangeSearch()}
+                />
+              </InputGroup>
+            </Flex>
+          </>
+        }
+      >
         <IconButton
-          display={{ base: "flex", md: "none" }}
-          zIndex={!isOpenAdd ? "99999" : "0"}
+          zIndex={!isOpen ? "99999" : "0"}
           position="fixed"
-          right="2rem"
-          bottom="5%"
-          aria-label="Add habit"
+          right={{ base: "2rem", md: "5rem" }}
+          bottom={{ base: "5%", md: "15%" }}
+          aria-label="Add bookmark"
           bg="#0987A0"
           _hover={{ bg: "#086F83" }}
           color="white"
           height="50px"
           width="50px"
           borderRadius="40px"
-          onClick={onOpenAdd}
+          onClick={onBookmarkAdd}
           icon={<AddIcon />}
         />
-        <IconButton
-          variant="link"
-          aria-label="Add habit"
-          display={{ base: "flex", md: "none" }}
-          position="absolute"
-          top={{ base: "20px", md: "22px" }}
-          right={{ base: "15px", md: "230px" }}
-          zIndex="10"
-          color="white"
-          bg="#0987A0"
-          icon={<FiMoreVertical />}
-          fontSize="20px"
-        />
+
         <BookmarkModal
-          title="Create a Bookmark"
-          defaultValues={null}
-          newValues={newValues}
-          setNewValues={setNewValues}
-          addInTags={addInTags}
-          removeInTags={removeInTags}
-          isOpen={isOpenAdd}
-          onClose={onCloseAdd}
-          tags={newValues.tags}
-          typeValues="newValues"
-          revertValues={null}
-          currentValues={null}
-          setCurrentValues={null}
+          title={editing ? "Edit Bookmark" : "Create a Bookmark"}
+          isOpen={isOpen}
+          onCancel={onCancel}
+          bookmarkValues={bookmarkValues}
+          onChange={onChangeValue}
+          onAddTag={onAddTag}
+          onRemoveTag={onRemoveTag}
+          onSave={onSaveForm}
         />
-        <BookmarkCards onOpen={onOpenEdit} />
-        <BookmarkModal
-          title="Edit Bookmark"
-          defaultValues={currentValues}
-          currentValues={currentValues}
-          setCurrentValues={setCurrentValues}
-          addInTags={addInTags}
-          removeInTags={removeInTags}
-          isOpen={isOpenEdit}
-          onClose={onCloseEdit}
-          tags={currentValues.tags}
-          typeValues="currentValues"
-          revertValues={revertValues}
-          newValues={null}
-          setNewValues={null}
-        />
+        <SimpleGrid
+          columns={[1, 4]}
+          mt="1rem"
+          spacing={{ base: "1rem", md: "0" }}
+        >
+          {bookmarks.map((bookmark, i) => (
+            <BookmarkCard
+              key={i}
+              bookmark={bookmark}
+              onEdit={() => onBookmarkEdit(bookmark, i)}
+              onDelete={() => onBookmarkDelete(i)}
+            />
+          ))}
+          <DeletAlert
+            onConfirm={onDeleteConfirm}
+            cancelRef={cancelRef}
+            isOpenAlert={isOpenAlert}
+            onCloseAlert={onCloseAlert}
+          />
+        </SimpleGrid>
       </DashboardLayout>
-    </>
+    </WithAuthentication>
   );
-}
+};
+
+export default Home;

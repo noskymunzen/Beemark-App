@@ -1,3 +1,4 @@
+import { Bookmark } from "@/types";
 import { AddIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -18,93 +19,82 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 
-const AddMarkModal = ({
-  defaultValues,
+interface AddMarkModalProps {
+  title: string;
+  isOpen: boolean;
+  onCancel: () => void;
+  bookmarkValues: Bookmark;
+  onChange: (key: string, value: string) => void;
+  onAddTag: (tag: string) => void;
+  onRemoveTag: (tag: string) => void;
+  onSave: () => Promise<void>;
+}
+
+const AddMarkModal: FC<AddMarkModalProps> = ({
   title,
   isOpen,
-  onClose,
-  newValues,
-  currentValues,
-  setNewValues,
-  setCurrentValues,
-  addInTags,
-  removeInTags,
-  tags,
-  typeValues,
-  revertValues,
+  onCancel,
+  bookmarkValues,
+  onChange,
+  onAddTag,
+  onRemoveTag,
+  onSave,
 }) => {
   const [tag, setTag] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const onAddTag = (tag: string) => {
-    addInTags(tag, typeValues);
+  const handleAddTag = () => {
+    onAddTag(tag);
     if (!inputRef.current) return;
     inputRef.current.value = "";
     setTag("");
   };
 
-  const onChangeValues = (e, key, typeValues) => {
-    if (typeValues === "newValues") {
-      setNewValues({
-        ...newValues,
-        [key]: e.target.value,
-      });
-      return;
-    }
-    setCurrentValues({
-      ...currentValues,
-      [key]: e.target.value,
-    });
-  };
-
-  const onCancelEdition = (typeValues) => {
-    if (typeValues === "newValues") {
-      onClose();
-      return;
-    }
-    onClose();
-    revertValues();
-  };
+  // const onCancelEdition = (typeValues) => {
+  //   if (typeValues === "newValues") {
+  //     onClose();
+  //     return;
+  //   }
+  //   onClose();
+  //   revertValues();
+  // };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onCancel}>
       <ModalOverlay />
       <ModalContent width={{ base: "95%", md: "50%" }}>
         <ModalHeader>{title}</ModalHeader>
-        <ModalCloseButton onClick={() => onCancelEdition(typeValues)} />
+        <ModalCloseButton onClick={() => onCancel()} />
         <ModalBody pb={5}>
           <FormControl>
             <FormLabel>Url</FormLabel>
             <Input
-              defaultValue={defaultValues?.url}
               placeholder="ex: https://chakra-ui.com/"
-              value={newValues?.url || defaultValues?.url}
+              value={bookmarkValues.url}
               onChange={(e) => {
-                onChangeValues(e, "url", typeValues);
+                onChange("url", e.target.value);
               }}
             />
           </FormControl>
           <FormControl mt={2}>
             <FormLabel>Title</FormLabel>
             <Input
-              defaultValue={defaultValues?.title}
               placeholder="ex: Chakra UI"
-              value={newValues?.title || defaultValues?.title}
+              value={bookmarkValues.title}
               onChange={(e) => {
-                onChangeValues(e, "title", typeValues);
+                onChange("title", e.target.value);
               }}
             />
           </FormControl>
           <FormControl mt={2}>
             <FormLabel>Excerpt</FormLabel>
             <Textarea
-              defaultValue={defaultValues?.excerpt}
               placeholder="ex: Chakra UI is a simple, modular and accessible component library that gives..."
-              value={newValues?.excerpt || defaultValues?.excerpt}
+              value={bookmarkValues.excerpt}
               onChange={(e) => {
-                onChangeValues(e, "excerpt", typeValues);
+                onChange("excerpt", e.target.value);
               }}
             />
           </FormControl>
@@ -125,23 +115,23 @@ const AddMarkModal = ({
                 bg="#E2E8F0"
                 _hover={{ bg: "#CBD5E0" }}
                 size="xs"
-                onClick={() => onAddTag(tag)}
+                onClick={() => handleAddTag()}
                 rightIcon={<AddIcon />}
               >
                 Tag
               </Button>
             </VStack>
-            {tags?.map((tag, i) => (
+            {bookmarkValues.tags?.map((tag, i) => (
               <Tag key={i} mb="5px" mx="2px">
-                <TagLabel value={tag}>{tag}</TagLabel>
-                <TagCloseButton onClick={() => removeInTags(tag, typeValues)} />
+                <TagLabel>{tag}</TagLabel>
+                <TagCloseButton onClick={() => onRemoveTag(tag)} />
               </Tag>
             ))}
           </FormControl>
         </ModalBody>
         <ModalFooter>
           <ButtonGroup gap="1">
-            <Button size="sm" onClick={() => onCancelEdition(typeValues)}>
+            <Button size="sm" onClick={() => onCancel()}>
               Cancel
             </Button>
             <Button
@@ -150,6 +140,7 @@ const AddMarkModal = ({
               bg="#0987A0"
               _hover={{ bg: "#00A3C4" }}
               mr={3}
+              onClick={onSave}
             >
               Save
             </Button>

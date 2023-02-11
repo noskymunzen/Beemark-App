@@ -8,7 +8,7 @@ import {
 import Link from "next/link";
 import BoxForm from "./BoxForm";
 
-const RecoverForm = ({ emailRecover, setEmailRecover }) => {
+const RecoverForm = ({ emailRecover, setEmailRecover, postRecover }) => {
   return (
     <BoxForm title=" Recover your account">
       <>
@@ -26,7 +26,7 @@ const RecoverForm = ({ emailRecover, setEmailRecover }) => {
           />
         </FormControl>
         <ButtonGroup display="flex" justifyContent="flex-end" mt="1.5rem">
-          <Link href="/login">
+          <Link href="/auth/login">
             <Button minW="85px" type="submit">
               Cancel
             </Button>
@@ -37,6 +37,7 @@ const RecoverForm = ({ emailRecover, setEmailRecover }) => {
             bg="#0987A0"
             _hover={{ backgroundColor: "#086F83" }}
             type="submit"
+            onClick={postRecover}
           >
             Seek
           </Button>
