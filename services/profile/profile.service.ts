@@ -3,7 +3,7 @@ import Axios from "axios";
 import { UserData } from "./profile.types";
 
 const instance = Axios.create({
-  baseURL: "http://127.0.1.1:4000/profile",
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/profile`,
   headers: {
     withCredentials: true,
     mode: "cors",

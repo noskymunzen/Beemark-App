@@ -9,7 +9,7 @@ import {
 } from "./auth.types";
 
 const instance = Axios.create({
-  baseURL: "http://127.0.1.1:4000/auth",
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/auth`,
   headers: {
     withCredentials: true,
     mode: "cors",
