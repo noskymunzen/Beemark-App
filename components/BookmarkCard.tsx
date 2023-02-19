@@ -13,6 +13,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import { FiEdit, FiMoreVertical, FiTrash } from "react-icons/fi";
 
 const BookmarkCard = ({ onEdit, onDelete, bookmark }) => {
@@ -62,37 +63,40 @@ const BookmarkCard = ({ onEdit, onDelete, bookmark }) => {
           borderTopRadius="8px"
           height="180px"
           width="300px"
-          src={bookmark.img}
-          objectFit="cover"
+          src={bookmark.imageURL}
+          objectFit="contain"
         />
-        <VStack
-          height="170px"
-          width="300px"
-          px="1.5"
-          py="1rem"
-          justifyContent="space-around"
-        >
-          <Text fontSize="md" fontWeight="bold">
-            {bookmark.title}
-          </Text>
-          <Container
-            display="block"
-            overflow="hidden"
-            height="80px"
+        <Link href={bookmark.url} target="_blank">
+          <VStack
+            cursor="pointer"
+            height="170px"
             width="300px"
-            textOverflow="ellipsis"
-            fontSize="xs"
+            px="1.5"
+            py="1rem"
+            justifyContent="space-around"
           >
-            {bookmark.excerpt}
-          </Container>
-          <HStack>
-            {bookmark.tags.slice(0, 3).map((tag, i) => (
-              <Tag variant="outline" key={i}>
-                {tag}
-              </Tag>
-            ))}
-          </HStack>
-        </VStack>
+            <Text fontSize="md" fontWeight="bold">
+              {bookmark.title}
+            </Text>
+            <Container
+              display="block"
+              // overflow="hidden"
+              height="80px"
+              width="300px"
+              textOverflow="ellipsis"
+              fontSize="xs"
+            >
+              {bookmark.excerpt}
+            </Container>
+            <HStack>
+              {bookmark.tags.slice(0, 3).map((tag, i) => (
+                <Tag variant="outline" key={i}>
+                  {tag}
+                </Tag>
+              ))}
+            </HStack>
+          </VStack>
+        </Link>
       </Flex>
     </Flex>
   );

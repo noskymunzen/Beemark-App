@@ -13,37 +13,25 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { FiLogOut, FiMoon, FiSettings } from "react-icons/fi";
 
 export interface HeaderProps {
   btnRef: () => void;
   onOpen: () => void;
   namePage: string;
-  userName: string;
   children: any;
-  // nameSection: string;
-  // onClickHome: () => void;
-  // onClickHabits: () => void;
+  onLogout: () => void;
+  userName: string;
 }
 
 const Header = ({
   btnRef,
   onOpen,
   namePage = "Summary",
-  userName = "Ninoska",
   children,
-}: // Ninoska
-// onClickHabits,
-// nameSection,
-HeaderProps) => {
-  const router = useRouter();
-
-  const onLogout = () => {
-    localStorage.removeItem("token");
-    router.push("/auth/login");
-  };
-
+  onLogout,
+  nameUser,
+}: HeaderProps) => {
   return (
     <Flex
       minW="100vw"
@@ -123,9 +111,7 @@ HeaderProps) => {
             fontSize="18px"
             rightIcon={<ChevronDownIcon boxSize="22px" />}
           >
-            {/* <Icon color="#F0F8FF" as={FiUser} />
-            <Text color="#F0F8FF">Hello {userName}!</Text> */}
-            Hello {userName}!
+            Hello {nameUser}!
           </MenuButton>
           <MenuList>
             <Link href="settings">

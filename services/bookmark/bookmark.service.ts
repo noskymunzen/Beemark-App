@@ -2,7 +2,7 @@ import Axios from "axios";
 import { Bookmark } from "./bookmark.types";
 
 const instance = Axios.create({
-  baseURL: "http://192.168.1.108:4000/bookmark",
+  baseURL: "http://127.0.1.1:4000/bookmark",
   headers: {
     withCredentials: true,
     mode: "cors",

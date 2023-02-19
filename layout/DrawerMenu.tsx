@@ -16,17 +16,13 @@ import { FiHome, FiLogOut, FiMoon, FiSettings } from "react-icons/fi";
 export interface DrawerProps {
   onClose: () => void;
   isOpen: boolean;
+  onLogout: () => void;
 }
 
-const DrawerMenu = ({ isOpen, onClose }: DrawerProps) => {
+const DrawerMenu = ({ isOpen, onClose, onLogout }: DrawerProps) => {
   const btnRef = useRef<HTMLButtonElement>(null);
 
   const router = useRouter();
-
-  const onLogout = () => {
-    localStorage.removeItem("token");
-    router.push("/auth/login");
-  };
 
   return (
     <Drawer

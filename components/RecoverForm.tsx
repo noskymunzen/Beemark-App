@@ -1,14 +1,23 @@
+import useForm from "@/hooks/useForm";
+import { PostRecover } from "@/services/auth/auth.types";
 import {
   Button,
   ButtonGroup,
   FormControl,
   FormLabel,
   Input,
+  Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { FC } from "react";
 import BoxForm from "./BoxForm";
 
-const RecoverForm = ({ emailRecover, setEmailRecover, postRecover }) => {
+interface RecoverFormProps {
+  ctx: ReturnType<typeof useForm<PostRecover>>;
+  onSubmit: () => void;
+}
+
+const RecoverForm: FC<RecoverFormProps> = ({ ctx, onSubmit }) => {
   return (
     <BoxForm title=" Recover your account">
       <>
@@ -19,11 +28,17 @@ const RecoverForm = ({ emailRecover, setEmailRecover, postRecover }) => {
           <Input
             type="email"
             placeholder="Email"
-            value={emailRecover}
+            value={ctx.values?.email}
+            onBlur={() => ctx.touchField("email")}
             onChange={(e) => {
-              setEmailRecover(e.target.value);
+              ctx.setField("email", e.target.value);
             }}
           />
+          {ctx.touched.email && ctx.errors.email && (
+            <Text color="tomato" fontSize="xs">
+              {ctx.errors.email}
+            </Text>
+          )}
         </FormControl>
         <ButtonGroup display="flex" justifyContent="flex-end" mt="1.5rem">
           <Link href="/auth/login">
@@ -37,7 +52,7 @@ const RecoverForm = ({ emailRecover, setEmailRecover, postRecover }) => {
             bg="#0987A0"
             _hover={{ backgroundColor: "#086F83" }}
             type="submit"
-            onClick={postRecover}
+            onClick={onSubmit}
           >
             Seek
           </Button>

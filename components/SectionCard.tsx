@@ -1,12 +1,14 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 
-const SecctionProfile = ({
+const SectionCard = ({
   title,
   value,
   btnName,
   section,
   onChangeBtnName,
-  form,
+  children,
+  onSubmit,
+  saving,
 }) => {
   return (
     <Box>
@@ -20,7 +22,7 @@ const SecctionProfile = ({
         mt="0.5rem"
       >
         {btnName === "Cancel" ? (
-          <Box minW={{ base: "auto", md: "350px" }}>{form}</Box>
+          <Box minW={{ base: "auto", md: "350px" }}>{children}</Box>
         ) : (
           <Text pt="2" fontSize="sm">
             {value}
@@ -39,6 +41,8 @@ const SecctionProfile = ({
               bg="#0987A0"
               _hover={{ backgroundColor: "#086F83" }}
               fontSize="13px"
+              onClick={onSubmit}
+              isLoading={saving && true}
             >
               Save
             </Button>
@@ -48,6 +52,7 @@ const SecctionProfile = ({
             variant="outline"
             fontSize="13px"
             value={btnName}
+            isDisabled={saving ? true : false}
             onClick={(e) => {
               onChangeBtnName(e.target.value, section);
             }}
@@ -60,4 +65,4 @@ const SecctionProfile = ({
   );
 };
 
-export default SecctionProfile;
+export default SectionCard;

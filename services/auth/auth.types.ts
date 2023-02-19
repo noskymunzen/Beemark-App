@@ -1,4 +1,4 @@
-interface PostSignin {
+interface PostSignup {
   name: string;
   email: string;
   password: string;
@@ -17,4 +17,21 @@ interface GetIsValidToken {
   code: string;
 }
 
-export type { PostSignin, PostLogin, PostRecover, GetIsValidToken };
+interface ResetPasswordForm {
+  password: string;
+  confirmPass: string;
+}
+
+interface ResetPassword {
+  code: string;
+  password: string;
+}
+
+export type {
+  PostSignup,
+  PostLogin,
+  PostRecover,
+  GetIsValidToken,
+  ResetPassword,
+  ResetPasswordForm,
+};

@@ -1,0 +1,82 @@
+{
+  "users": [
+    {
+      "id": "b7b0b5c1-25e0-484b-9961-c582040faa09",
+      "name": "Destiny_Jerde",
+      "email": "Ernestina_Daugherty@hotmail.com",
+      "picture": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/657.jpg",
+      "password": "7V7Yws4pCIQV5aD",
+      "createdAt": "2022-04-21T13:30:15.530Z"
+    },
+    {
+      "id": "d5d8a538-323c-4006-9a2f-35a5512730b0",
+      "name": "Bennie.Gibson",
+      "email": "Daryl_Wolf47@yahoo.com",
+      "picture": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1021.jpg",
+      "password": "g2hsRkT3oat3md0",
+      "createdAt": "2022-08-21T03:55:46.698Z"
+    }
+  ],
+  "bookmarks": [
+    {
+      "id": "ebaac735-87f6-4eb7-91f9-f7346c21f2e7",
+      "url": "http://insistent-drill.name",
+      "title": "Thomas",
+      "excerpt": "Harum omnis deleniti provident commodi. Nulla aliquid explicabo repudiandae. Illo dolores optio laboriosam impedit iste veniam tempora. In explicabo error tenetur ut. Praesentium aliquam nostrum aliquam eius doloribus veritatis occaecati.",
+      "userId": "b7b0b5c1-25e0-484b-9961-c582040faa09",
+      "imageURL": "https://loremflickr.com/640/480/business",
+      "isAvailable": true,
+      "tags": ["Sport", "Health", "Learning", "Music", "Training"]
+    },
+    {
+      "id": "638a2071-181c-4aff-b0fb-3b27ea713f10",
+      "url": "https://warlike-ice.biz",
+      "title": "Alisa",
+      "excerpt": "Ratione perferendis quam harum alias id totam animi quisquam quasi. Maiores nemo eos. Nulla recusandae quo. Culpa sed excepturi magni esse ullam ex itaque inventore illum. Atque iusto qui sapiente eaque dignissimos inventore odio. Magni ipsa eos reiciendis illum animi animi cum.",
+      "userId": "b7b0b5c1-25e0-484b-9961-c582040faa09",
+      "imageURL": "https://loremflickr.com/640/480/business",
+      "isAvailable": true,
+      "tags": ["Sport", "Health", "Learning", "Music", "Training"]
+    },
+    {
+      "id": "dfb8d9ae-786e-4dc4-bf65-5418e3bb3b90",
+      "url": "http://frugal-analogy.name",
+      "title": "Triston",
+      "excerpt": "Expedita reiciendis vero assumenda nam delectus cum culpa harum amet. Quo animi ipsam id. Quasi et corrupti. Neque pariatur omnis. Voluptates animi culpa.",
+      "userId": "b7b0b5c1-25e0-484b-9961-c582040faa09",
+      "imageURL": "https://loremflickr.com/640/480/business",
+      "isAvailable": true,
+      "tags": ["Sport", "Health", "Learning", "Music", "Training"]
+    },
+    {
+      "id": "1f8cc492-3fc5-4f1a-bb3f-acc742572c7e",
+      "url": "https://reckless-navigation.biz",
+      "title": "Ernie",
+      "excerpt": "Beatae porro molestiae enim vitae sapiente. Ipsum velit aspernatur est ducimus nobis veniam nesciunt rerum dolorum. Quisquam sequi repudiandae cumque. Distinctio ut in corporis temporibus doloribus maxime.",
+      "userId": "d5d8a538-323c-4006-9a2f-35a5512730b0",
+      "imageURL": "https://loremflickr.com/640/480/business",
+      "isAvailable": true,
+      "tags": ["Sport", "Health", "Learning", "Music", "Training"]
+    },
+    {
+      "id": "e6311e71-d310-45b1-96db-c265024e06b8",
+      "url": "http://focused-qualification.info",
+      "title": "Roy",
+      "excerpt": "Dolore illum rerum explicabo commodi dicta laudantium. Voluptatem reiciendis ab minima earum debitis asperiores distinctio earum quod. Porro libero laboriosam libero. Quisquam hic totam fugit voluptatem distinctio earum. Quis ducimus suscipit. Illo deleniti possimus odit voluptatum.",
+      "userId": "d5d8a538-323c-4006-9a2f-35a5512730b0",
+      "imageURL": "https://loremflickr.com/640/480/business",
+      "isAvailable": true,
+      "tags": ["Sport", "Health", "Learning", "Music", "Training"]
+    },
+    {
+      "id": "02d84fb3-ad05-429a-b6fa-2b9046db7d96",
+      "url": "https://improbable-turnover.name",
+      "title": "Armand",
+      "excerpt": "Ipsam earum beatae a cupiditate atque earum voluptate debitis nihil. Doloribus reprehenderit provident distinctio officia veniam qui quod repellendus tempora. At earum numquam sequi odit optio. Inventore tempora reiciendis. Quaerat minus ullam fugit. Facere labore dolore blanditiis deserunt saepe corrupti enim.",
+      "userId": "d5d8a538-323c-4006-9a2f-35a5512730b0",
+      "imageURL": "https://loremflickr.com/640/480/business",
+      "isAvailable": true,
+      "tags": ["Sport", "Health", "Learning", "Music", "Training"]
+    }
+  ]
+}

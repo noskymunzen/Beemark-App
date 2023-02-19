@@ -1,29 +1,42 @@
-import { Container, Flex, useDisclosure } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useMemo } from "react";
 import DrawerMenu from "./DrawerMenu";
 import Footer from "./Footer";
 import Header from "./Header";
-//import { MdChevronRight } from "react-icons/md";
 
 export interface DashboardLayoutProps {
   children: any;
   title: string;
   namePage: string;
   headerComponent: any;
+  onOpen: () => void;
+  onClose: () => void;
+  isOpen: boolean;
 }
 
 const DashboardLayout = ({
   children,
   title,
   namePage,
+  nameUser,
   headerComponent,
+  onOpen,
+  onClose,
+  isOpen,
 }: DashboardLayoutProps) => {
   const headTitle = useMemo(() => {
     return title ? `${title} :: BEEMARK` : "BEEMARK";
   }, [title]);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
+
+  const onLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userData");
+    router.push("/auth/login");
+  };
 
   return (
     <>
@@ -31,10 +44,15 @@ const DashboardLayout = ({
         <title>{headTitle}</title>
       </Head>
       <Flex flexDirection="column" justifyContent="space-between">
-        <Header onOpen={onOpen} namePage={namePage}>
+        <Header
+          onOpen={onOpen}
+          namePage={namePage}
+          onLogout={onLogout}
+          nameUser={nameUser}
+        >
           {headerComponent}
         </Header>
-        <DrawerMenu isOpen={isOpen} onClose={onClose} />
+        <DrawerMenu isOpen={isOpen} onClose={onClose} onLogout={onLogout} />
         <Flex
           flexDirection="column"
           justifyContent="space-between"

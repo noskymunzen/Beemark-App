@@ -1,3 +1,4 @@
+import useForm from "@/hooks/useForm";
 import { Bookmark } from "@/types";
 import { AddIcon } from "@chakra-ui/icons";
 import {
@@ -16,7 +17,7 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
-  Textarea,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import { FC, useRef, useState } from "react";
@@ -29,7 +30,8 @@ interface AddMarkModalProps {
   onChange: (key: string, value: string) => void;
   onAddTag: (tag: string) => void;
   onRemoveTag: (tag: string) => void;
-  onSave: () => Promise<void>;
+  ctx: ReturnType<typeof useForm<Bookmark>>;
+  onSubmit: () => void;
 }
 
 const AddMarkModal: FC<AddMarkModalProps> = ({
@@ -40,7 +42,8 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
   onChange,
   onAddTag,
   onRemoveTag,
-  onSave,
+  ctx,
+  onSubmit,
 }) => {
   const [tag, setTag] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -51,15 +54,6 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
     inputRef.current.value = "";
     setTag("");
   };
-
-  // const onCancelEdition = (typeValues) => {
-  //   if (typeValues === "newValues") {
-  //     onClose();
-  //     return;
-  //   }
-  //   onClose();
-  //   revertValues();
-  // };
 
   return (
     <Modal isOpen={isOpen} onClose={onCancel}>
@@ -72,23 +66,35 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
             <FormLabel>Url</FormLabel>
             <Input
               placeholder="ex: https://chakra-ui.com/"
-              value={bookmarkValues.url}
+              value={ctx.values?.url}
+              onBlur={() => ctx.touchField("url")}
               onChange={(e) => {
-                onChange("url", e.target.value);
+                ctx.setField("url", e.target.value);
               }}
             />
+            {ctx.touched.url && ctx.errors.url && (
+              <Text color="tomato" fontSize="xs">
+                {ctx.errors.url}
+              </Text>
+            )}
           </FormControl>
           <FormControl mt={2}>
             <FormLabel>Title</FormLabel>
             <Input
               placeholder="ex: Chakra UI"
-              value={bookmarkValues.title}
+              value={ctx.values?.title}
+              onBlur={() => ctx.touchField("title")}
               onChange={(e) => {
-                onChange("title", e.target.value);
+                ctx.setField("title", e.target.value);
               }}
             />
+            {ctx.touched.title && ctx.errors.title && (
+              <Text color="tomato" fontSize="xs">
+                {ctx.errors.title}
+              </Text>
+            )}
           </FormControl>
-          <FormControl mt={2}>
+          {/* <FormControl mt={2}>
             <FormLabel>Excerpt</FormLabel>
             <Textarea
               placeholder="ex: Chakra UI is a simple, modular and accessible component library that gives..."
@@ -97,7 +103,7 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
                 onChange("excerpt", e.target.value);
               }}
             />
-          </FormControl>
+          </FormControl> */}
           <FormControl mt={2}>
             <FormLabel>Tags</FormLabel>
             <Input
@@ -121,7 +127,7 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
                 Tag
               </Button>
             </VStack>
-            {bookmarkValues.tags?.map((tag, i) => (
+            {ctx?.values?.tags?.map((tag, i) => (
               <Tag key={i} mb="5px" mx="2px">
                 <TagLabel>{tag}</TagLabel>
                 <TagCloseButton onClick={() => onRemoveTag(tag)} />
@@ -140,7 +146,7 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
               bg="#0987A0"
               _hover={{ bg: "#00A3C4" }}
               mr={3}
-              onClick={onSave}
+              onClick={onSubmit}
             >
               Save
             </Button>

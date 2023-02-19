@@ -1,3 +1,5 @@
+import useForm from "@/hooks/useForm";
+import { UserData } from "@/services/profile/profile.types";
 import {
   Card,
   CardBody,
@@ -8,31 +10,34 @@ import {
   Input,
   Stack,
   StackDivider,
+  Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import SecctionProfile from "./SecctionProfile";
+import { FC, useEffect } from "react";
+import SectionCard from "./SectionCard";
 
-const ProfileCard = ({
-  name = "Ninoska Münzenmayer",
-  email = "munzenmayer@outlook.com",
-  password = "******",
+interface ProfileCardProps {
+  ctxName: ReturnType<typeof useForm<{ name: string }>>;
+  ctxEmail: ReturnType<typeof useForm<{ email: string }>>;
+  onSubmitName: () => void;
+  onSubmitEmail: () => void;
+  userData: UserData;
+  saving: boolean;
+  onChangeBtnName: () => void;
+  btnNames: { name: string; email: string; password: string };
+}
+
+const ProfileCard: FC<ProfileCardProps> = ({
+  ctxName,
+  ctxEmail,
+  ctxPass,
+  onSubmitName,
+  onSubmitEmail,
+  onSubmitPass,
+  userData,
+  saving,
+  onChangeBtnName,
+  btnNames,
 }) => {
-  const [btnNames, setBtnNames] = useState({
-    name: "Edit",
-    email: "Edit",
-    password: "Edit",
-  });
-
-  const onChangeBtnName = (value, key) => {
-    if (value === "Cancel") {
-      setBtnNames({ ...btnNames, [key]: "Edit" });
-      console.log("Edit");
-      return;
-    }
-    setBtnNames({ ...btnNames, [key]: "Cancel" });
-    console.log("cancel");
-  };
-
   useEffect(() => {
     console.log(btnNames);
   }, [btnNames]);
@@ -44,59 +49,120 @@ const ProfileCard = ({
       </CardHeader>
       <CardBody>
         <Stack divider={<StackDivider />} spacing="4">
-          <SecctionProfile
+          <SectionCard
+            saving={saving}
             btnName={btnNames.name}
             title="Name"
             section="name"
-            value={name}
+            value={userData.name}
             onChangeBtnName={onChangeBtnName}
-            form={
-              <FormControl>
-                <Input type="text" borderColor="gray.300" />
-              </FormControl>
-            }
-          />
-          <SecctionProfile
+            onSubmit={onSubmitName}
+          >
+            <FormControl>
+              <Input
+                isDisabled={saving && true}
+                type="text"
+                borderColor="gray.300"
+                defaultValue={userData.name}
+                value={ctxName.values.name}
+                onBlur={() => ctxName.touchField("name")}
+                onChange={(e) => {
+                  ctxName.setField("name", e.target.value);
+                }}
+              />
+              {ctxName.touched.name && ctxName.errors.name && (
+                <Text color="tomato" fontSize="xs">
+                  {ctxName.errors.name}
+                </Text>
+              )}
+            </FormControl>
+          </SectionCard>
+          <SectionCard
+            saving={saving}
             btnName={btnNames.email}
             title="Email"
             section="email"
-            value={email}
+            value={userData.email}
             onChangeBtnName={onChangeBtnName}
-            form={
-              <FormControl>
-                <Input type="text" borderColor="gray.300" />
-              </FormControl>
-            }
-          />
-          <SecctionProfile
+            onSubmit={onSubmitEmail}
+          >
+            <FormControl>
+              <Input
+                isDisabled={saving && true}
+                type="text"
+                borderColor="gray.300"
+                defaultValue={userData.email}
+                value={ctxEmail.values.email}
+                onBlur={() => ctxEmail.touchField("email")}
+                onChange={(e) => {
+                  ctxEmail.setField("email", e.target.value);
+                }}
+              />
+              {ctxEmail.touched.email && ctxEmail.errors.email && (
+                <Text color="tomato" fontSize="xs">
+                  {ctxEmail.errors.email}
+                </Text>
+              )}
+            </FormControl>
+          </SectionCard>
+          <SectionCard
+            saving={saving}
             btnName={btnNames.password}
             title="Password"
             section="password"
-            value={password}
+            value="*********"
             onChangeBtnName={onChangeBtnName}
-            form={
-              <>
-                <FormControl display="flex" mt="1rem">
-                  <FormLabel minW="100px" fontSize="sm">
-                    Current
-                  </FormLabel>
-                  <Input type="text" borderColor="gray.300" />
-                </FormControl>
-                <FormControl display="flex" mt="1rem">
-                  <FormLabel minW="100px" fontSize="sm">
-                    New password
-                  </FormLabel>
-                  <Input type="text" borderColor="gray.300" />
-                </FormControl>
-                <FormControl display="flex" mt="1rem">
-                  <FormLabel minW="100px" fontSize="sm">
-                    Repet new password
-                  </FormLabel>
-                  <Input type="text" borderColor="gray.300" />
-                </FormControl>
-              </>
-            }
-          />
+            onSubmit={onSubmitPass}
+          >
+            <>
+              <FormControl display="flex" mt="1rem">
+                <FormLabel minW="100px" fontSize="sm">
+                  Current
+                </FormLabel>
+                <Input
+                  type="password"
+                  isDisabled={saving && true}
+                  borderColor="gray.300"
+                  value={ctxPass.values.currentPass}
+                  onBlur={() => ctxPass.touchField("currentPass")}
+                  onChange={(e) => {
+                    ctxPass.setField("currentPass", e.target.value);
+                  }}
+                />
+                {ctxPass.touched.currentPass && ctxPass.errors.currentPass && (
+                  <Text color="tomato" fontSize="xs">
+                    {ctxPass.errors.currentPass}
+                  </Text>
+                )}
+              </FormControl>
+              <FormControl display="flex" mt="1rem">
+                <FormLabel minW="100px" fontSize="sm">
+                  New password
+                </FormLabel>
+                <Input
+                  type="password"
+                  isDisabled={saving && true}
+                  borderColor="gray.300"
+                  value={ctxPass.values.newPass}
+                  onBlur={() => ctxPass.touchField("newPass")}
+                  onChange={(e) => {
+                    ctxPass.setField("newPass", e.target.value);
+                  }}
+                />
+                {ctxPass.touched.newPass && ctxPass.errors.newPass && (
+                  <Text color="tomato" fontSize="xs">
+                    {ctxPass.errors.newPass}
+                  </Text>
+                )}
+              </FormControl>
+              <FormControl display="flex" mt="1rem">
+                <FormLabel minW="100px" fontSize="sm">
+                  Repet new password
+                </FormLabel>
+                <Input type="text" borderColor="gray.300" />
+              </FormControl>
+            </>
+          </SectionCard>
         </Stack>
       </CardBody>
     </Card>

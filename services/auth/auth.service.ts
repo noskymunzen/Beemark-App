@@ -4,11 +4,12 @@ import {
   GetIsValidToken,
   PostLogin,
   PostRecover,
-  PostSignin,
+  PostSignup,
+  ResetPassword,
 } from "./auth.types";
 
 const instance = Axios.create({
-  baseURL: "http://192.168.1.108:4000/auth",
+  baseURL: "http://127.0.1.1:4000/auth",
   headers: {
     withCredentials: true,
     mode: "cors",
@@ -17,7 +18,7 @@ const instance = Axios.create({
   },
 });
 
-const postSignin = (userData: PostSignin) => {
+const postSignup = (userData: PostSignup) => {
   return instance.post("/signup", userData);
 };
 
@@ -30,7 +31,11 @@ const postRecover = (userData: PostRecover) => {
 };
 
 const checkCodePass = (code: GetIsValidToken) => {
-  return instance.get<PasswordToken>(`/token/${code}`);
+  return instance.get<PasswordToken>(`/token/${code.code}`);
+};
+
+const resetPassword = (payload: ResetPassword) => {
+  return instance.post<void>(`/reset-password`, payload);
 };
 
 const getUserData = () => {
@@ -41,10 +46,11 @@ const getUserData = () => {
 };
 
 const $auth = {
-  postSignin,
+  postSignup,
   postLogin,
   postRecover,
   checkCodePass,
+  resetPassword,
   getUserData,
 };
 export default $auth;
