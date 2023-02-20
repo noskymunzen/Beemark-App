@@ -18,11 +18,13 @@ import SectionCard from "./SectionCard";
 interface ProfileCardProps {
   ctxName: ReturnType<typeof useForm<{ name: string }>>;
   ctxEmail: ReturnType<typeof useForm<{ email: string }>>;
+  ctxPass: ReturnType<typeof useForm<{ currentPass: string; newPass: string }>>;
   onSubmitName: () => void;
   onSubmitEmail: () => void;
+  onSubmitPass: () => void;
   userData: UserData;
   saving: boolean;
-  onChangeBtnName: () => void;
+  onChangeBtnName: (value: string, key: string) => void;
   btnNames: { name: string; email: string; password: string };
 }
 

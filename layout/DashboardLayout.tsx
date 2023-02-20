@@ -10,10 +10,11 @@ export interface DashboardLayoutProps {
   children: any;
   title: string;
   namePage: string;
-  headerComponent: any;
+  headerComponent?: any;
   onOpen: () => void;
   onClose: () => void;
   isOpen: boolean;
+  nameUser: string;
 }
 
 const DashboardLayout = ({
@@ -49,6 +50,7 @@ const DashboardLayout = ({
           namePage={namePage}
           onLogout={onLogout}
           nameUser={nameUser}
+          btnRef={() => {}}
         >
           {headerComponent}
         </Header>

@@ -17,10 +17,10 @@ import { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
-export default function settings() {
+const Settings = () => {
   const toast = useToast({});
 
-  const [userData, setUserData] = useState<User>({});
+  const [userData, setUserData] = useState<Partial<User>>({});
   const [saving, setSaving] = useState(false);
   const [btnNames, setBtnNames] = useState({
     name: "Edit",
@@ -28,7 +28,7 @@ export default function settings() {
     password: "Edit",
   });
 
-  const onChangeBtnName = (value, key) => {
+  const onChangeBtnName = (value: string, key: string) => {
     if (value === "Cancel") {
       setBtnNames({ ...btnNames, [key]: "Edit" });
       console.log("Edit");
@@ -219,6 +219,7 @@ export default function settings() {
         isOpen={isOpenDrw}
         onOpen={onOpenDrw}
         onClose={onCloseDrw}
+        nameUser={userData.name || ""}
       >
         <ProfileCard
           onChangeBtnName={onChangeBtnName}
@@ -236,3 +237,4 @@ export default function settings() {
     </>
   );
 }
+export default Settings;

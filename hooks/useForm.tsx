@@ -34,14 +34,14 @@ const useForm = <T extends object>({
       [field]: true,
     });
   };
-  const errors = {
+  const errors: Record<keyof T, boolean> = {
     ...initialErrors,
     ...Object.entries(validate(values)).reduce(
       (acc, [field, value]) => ({
         ...acc,
         [field]: typeof value === "string" ? value : false,
       }),
-      {}
+      {} as Record<keyof T, boolean>
     ),
   };
   const hasErrors = Object.values(errors).some(

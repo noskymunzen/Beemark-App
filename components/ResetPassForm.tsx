@@ -17,7 +17,6 @@ const ResetPassForm: FC<ResetPassFormProps> = ({ ctx, onSubmit }) => {
           New password
         </FormLabel>
         <Input
-          type="text"
           type="password"
           borderColor="gray.300"
           value={ctx.values?.password}

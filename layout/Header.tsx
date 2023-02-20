@@ -21,7 +21,7 @@ export interface HeaderProps {
   namePage: string;
   children: any;
   onLogout: () => void;
-  userName: string;
+  nameUser: string;
 }
 
 const Header = ({
