@@ -52,16 +52,6 @@ const Header = ({
           src="/beemark.png"
           minW="271px"
         />
-        {/* <Text
-          color="#F0F8FF"
-          fontWeight="bold"
-          ml="3rem"
-          display={{ base: "none", md: "block" }}
-          fontSize="20px"
-          minW="271px"
-        >
-          BEEMARK
-        </Text> */}
       </Link>
       <Icon
         ml="1.5rem"
