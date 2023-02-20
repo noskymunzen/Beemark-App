@@ -28,6 +28,9 @@ export const isMin = (
 export const isPassword = (value = "") =>
   solveValidation([isMin(value, 8, "Password")]);
 
+export const comparePass = (value1: string, value2: string) =>
+  value1 === value2 || "Passwords do not match";
+
 export const validUrl = (value: string) => {
   const pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
