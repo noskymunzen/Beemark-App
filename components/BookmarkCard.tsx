@@ -1,4 +1,4 @@
-import { Bookmark } from "@/services/bookmark/bookmark.types";
+import { Bookmark } from "@/types";
 import {
   Container,
   Flex,
@@ -70,7 +70,7 @@ const BookmarkCard = ({ onEdit, onDelete, bookmark }: BookmarkCardProps) => {
           borderTopRadius="8px"
           height="180px"
           width="300px"
-          src={bookmark.url}
+          src={bookmark.imageURL}
           objectFit="contain"
         />
         <Link href={bookmark.url} target="_blank">
