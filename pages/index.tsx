@@ -154,12 +154,12 @@ const Home = () => {
     {
       enabled: false,
       onSuccess: (res) => {
-        bookmarkForm.values = {
+        bookmarkForm.setValues({
           url: "",
           title: "",
           excerpt: "",
           tags: [],
-        };
+        });
       },
       onError: (err: {
         response: AxiosResponse<{ message: string; type?: string }>;
@@ -341,11 +341,7 @@ const Home = () => {
           onAddTag={onAddTag}
           onRemoveTag={onRemoveTag}
         />
-        <SimpleGrid
-          columns={[1, 4]}
-          mt="1rem"
-          spacing={{ base: "1rem", md: "0" }}
-        >
+        <SimpleGrid columns={[1, 4]} mt="1rem" gap={3}>
           {sppiner && <Spinner />}
           {!sppiner &&
             bookmarks
