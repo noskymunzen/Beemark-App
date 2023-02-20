@@ -25,7 +25,7 @@ export const isMin = (
 ) =>
   value.length >= minimum || `${field} must contains a minimum of ${minimum}`;
 
-export const isPassword = (value: string) =>
+export const isPassword = (value = "") =>
   solveValidation([isMin(value, 8, "Password")]);
 
 export const validUrl = (value: string) => {

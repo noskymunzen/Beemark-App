@@ -5,7 +5,6 @@ const Footer = () => {
     <Flex
       bg="RGBA(0, 0, 0, 0.06)"
       minH="70px"
-      display="flex"
       justifyContent="center"
       alignItems="center"
       display={{ base: "none", md: "flex" }}

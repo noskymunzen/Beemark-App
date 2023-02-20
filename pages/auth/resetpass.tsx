@@ -57,12 +57,12 @@ export default function ResetPass() {
       password: solveValidation([
         isString(values.password),
         isRequired(values.password),
-        isPassword(values.password),
+        isPassword(values.password || ""),
       ]),
       confirmPass: solveValidation([
         isString(values.confirmPass),
         isRequired(values.confirmPass),
-        isPassword(values.confirmPass),
+        isPassword(values.confirmPass || ""),
       ]),
     }),
     onSubmit: () => {

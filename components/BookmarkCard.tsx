@@ -1,3 +1,4 @@
+import { Bookmark } from "@/services/bookmark/bookmark.types";
 import {
   Container,
   Flex,
@@ -16,7 +17,13 @@ import {
 import Link from "next/link";
 import { FiEdit, FiMoreVertical, FiTrash } from "react-icons/fi";
 
-const BookmarkCard = ({ onEdit, onDelete, bookmark }) => {
+interface BookmarkCardProps {
+  onEdit: () => void;
+  onDelete: () => void;
+  bookmark: Bookmark;
+}
+
+const BookmarkCard = ({ onEdit, onDelete, bookmark }: BookmarkCardProps) => {
   return (
     <Flex justifyContent="center">
       <Flex
@@ -63,7 +70,7 @@ const BookmarkCard = ({ onEdit, onDelete, bookmark }) => {
           borderTopRadius="8px"
           height="180px"
           width="300px"
-          src={bookmark.imageURL}
+          src={bookmark.url}
           objectFit="contain"
         />
         <Link href={bookmark.url} target="_blank">

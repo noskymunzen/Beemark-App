@@ -1,4 +1,15 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { PropsWithChildren } from "react";
+
+interface SectionProps extends PropsWithChildren {
+  title: string;
+  value: string;
+  btnName: string;
+  onChangeBtnName: (name: string, section: string) => void;
+  onSubmit: () => void;
+  saving: boolean;
+  section: string;
+}
 
 const SectionCard = ({
   title,
@@ -9,7 +20,7 @@ const SectionCard = ({
   children,
   onSubmit,
   saving,
-}) => {
+}: SectionProps) => {
   return (
     <Box>
       <Heading size="xs" textTransform="uppercase">
@@ -42,7 +53,7 @@ const SectionCard = ({
               _hover={{ backgroundColor: "#086F83" }}
               fontSize="13px"
               onClick={onSubmit}
-              isLoading={saving && true}
+              isLoading={saving}
             >
               Save
             </Button>
@@ -52,8 +63,8 @@ const SectionCard = ({
             variant="outline"
             fontSize="13px"
             value={btnName}
-            isDisabled={saving ? true : false}
-            onClick={(e) => {
+            isDisabled={saving}
+            onClick={(e: any) => {
               onChangeBtnName(e.target.value, section);
             }}
           >

@@ -1,6 +1,11 @@
 import { Center, Flex, Text } from "@chakra-ui/react";
+import { PropsWithChildren } from "react";
 
-const Form = ({ title, children }) => {
+interface FormProps extends PropsWithChildren {
+  title: string;
+}
+
+const Form = ({ title, children }: FormProps) => {
   return (
     <Flex
       border="2px"

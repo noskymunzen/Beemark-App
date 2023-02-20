@@ -3,7 +3,17 @@ import Head from "next/head";
 import Link from "next/link";
 import { useMemo } from "react";
 
-const HeaderMain = ({ formShowed, isPageResetPass, title }) => {
+interface HeaderMainProps {
+  formShowed: string;
+  isPageResetPass: boolean;
+  title: string;
+}
+
+const HeaderMain = ({
+  formShowed,
+  isPageResetPass,
+  title,
+}: HeaderMainProps) => {
   const headTitle = useMemo(() => {
     return title ? ` BEEMARK :: ${title} ` : "BEEMARK";
   }, [title]);

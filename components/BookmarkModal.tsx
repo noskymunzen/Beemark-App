@@ -26,8 +26,6 @@ interface AddMarkModalProps {
   title: string;
   isOpen: boolean;
   onCancel: () => void;
-  bookmarkValues: Bookmark;
-  onChange: (key: string, value: string) => void;
   onAddTag: (tag: string) => void;
   onRemoveTag: (tag: string) => void;
   ctx: ReturnType<typeof useForm<Bookmark>>;
@@ -38,8 +36,6 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
   title,
   isOpen,
   onCancel,
-  bookmarkValues,
-  onChange,
   onAddTag,
   onRemoveTag,
   ctx,

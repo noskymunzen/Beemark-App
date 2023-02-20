@@ -67,7 +67,7 @@ const Home = () => {
       url: solveValidation([
         isString(values.url),
         isRequired(values.url),
-        validUrl(values.url),
+        validUrl(values.url || ""),
       ]),
       title: solveValidation([isString(values.title)]),
     }),
@@ -340,7 +340,6 @@ const Home = () => {
           onCancel={onCancel}
           onAddTag={onAddTag}
           onRemoveTag={onRemoveTag}
-          onSave={onSaveForm}
         />
         <SimpleGrid
           columns={[1, 4]}

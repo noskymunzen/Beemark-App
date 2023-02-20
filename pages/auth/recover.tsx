@@ -8,7 +8,7 @@ import useForm from "@/hooks/useForm";
 import { AuthErrorMsg } from "@/services/auth/auth.const";
 import { AuthError } from "@/services/auth/auth.enum";
 import $auth from "@/services/auth/auth.service";
-import { PostSignup } from "@/services/auth/auth.types";
+import { PostRecover, PostSignup } from "@/services/auth/auth.types";
 import {
   Button,
   Container,
@@ -26,7 +26,7 @@ import RecoverForm from "../../components/RecoverForm";
 export default function Recover() {
   const toast = useToast({});
 
-  const recoverForm = useForm<PostSignup>({
+  const recoverForm = useForm<PostRecover>({
     initialValues: {
       email: "",
     },
@@ -47,8 +47,7 @@ export default function Recover() {
     () => $auth.postRecover(recoverForm.values),
     {
       enabled: false,
-      onSuccess: (res) => {
-        localStorage.setItem("code", res.data.code);
+      onSuccess: () => {
         toast({
           title: "You will receive an email within 5 minutes.",
           description: " Please check email in spam",

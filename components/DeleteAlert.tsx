@@ -8,7 +8,19 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-const DeletAlert = ({ isOpenAlert, cancelRef, onCloseAlert, onConfirm }) => {
+interface DeleteAlertProps {
+  isOpenAlert: boolean;
+  cancelRef: any;
+  onCloseAlert: () => void;
+  onConfirm: () => void;
+}
+
+const DeletAlert = ({
+  isOpenAlert,
+  cancelRef,
+  onCloseAlert,
+  onConfirm,
+}: DeleteAlertProps) => {
   return (
     <>
       <AlertDialog

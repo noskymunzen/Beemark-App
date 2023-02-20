@@ -24,7 +24,7 @@ interface ProfileCardProps {
   onSubmitPass: () => void;
   userData: UserData;
   saving: boolean;
-  onChangeBtnName: (value: string, key: string) => void;
+  onChangeBtnName: (name: string, value: string) => void;
   btnNames: { name: string; email: string; password: string };
 }
 
@@ -56,7 +56,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
             btnName={btnNames.name}
             title="Name"
             section="name"
-            value={userData.name}
+            value={userData?.name || ""}
             onChangeBtnName={onChangeBtnName}
             onSubmit={onSubmitName}
           >
@@ -84,7 +84,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
             btnName={btnNames.email}
             title="Email"
             section="email"
-            value={userData.email}
+            value={userData?.email || ""}
             onChangeBtnName={onChangeBtnName}
             onSubmit={onSubmitEmail}
           >
