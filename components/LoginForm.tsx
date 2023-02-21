@@ -48,7 +48,7 @@ const LoginForm: FC<LoginFormProps> = ({ ctx, onSubmit }) => {
         <Button
           mt="1rem"
           color="white"
-          bg="#0987A0"
+          bg="cyan.700"
           _hover={{ backgroundColor: "#086F83" }}
           type="submit"
           onClick={onSubmit}

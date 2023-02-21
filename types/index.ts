@@ -18,3 +18,8 @@ export interface User {
   name: string;
   email: string;
 }
+
+export interface ResponseAxios {
+  message: string;
+  type: string;
+}

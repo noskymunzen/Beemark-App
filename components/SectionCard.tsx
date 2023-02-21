@@ -49,7 +49,7 @@ const SectionCard = ({
             <Button
               minW="75px"
               color="white"
-              bg="#0987A0"
+              bg="cyan.700"
               _hover={{ backgroundColor: "#086F83" }}
               fontSize="13px"
               onClick={onSubmit}

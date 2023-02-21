@@ -9,23 +9,23 @@ import {
 } from "@chakra-ui/react";
 
 interface DeleteAlertProps {
-  isOpenAlert: boolean;
+  isOpen: boolean;
   cancelRef: any;
-  onCloseAlert: () => void;
+  onClose: () => void;
   onConfirm: () => void;
 }
 
 const DeletAlert = ({
-  isOpenAlert,
+  isOpen,
   cancelRef,
-  onCloseAlert,
+  onClose,
   onConfirm,
 }: DeleteAlertProps) => {
   return (
     <AlertDialog
-      isOpen={isOpenAlert}
+      isOpen={isOpen}
       leastDestructiveRef={cancelRef}
-      onClose={onCloseAlert}
+      onClose={onClose}
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
@@ -38,7 +38,7 @@ const DeletAlert = ({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button size="sm" ref={cancelRef} onClick={onCloseAlert}>
+            <Button size="sm" ref={cancelRef} onClick={onClose}>
               Cancel
             </Button>
             <Button size="sm" colorScheme="red" onClick={onConfirm} ml={3}>

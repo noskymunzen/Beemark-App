@@ -6,7 +6,7 @@ import useForm from "@/hooks/useForm";
 import DashboardLayout from "@/layout/DashboardLayout";
 import $auth from "@/services/auth/auth.service";
 import $bookmark from "@/services/bookmark/bookmark.service";
-import { Bookmark } from "@/types";
+import { Bookmark, ResponseAxios } from "@/types";
 import { AddIcon, CloseIcon, Search2Icon } from "@chakra-ui/icons";
 
 import {
@@ -33,25 +33,23 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 
 const Home = () => {
+  const [spinner, setSpinner] = useState(false);
   const [nameUser, setNameUser] = useState("");
+
   const [search, setSearch] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const [editing, setEditing] = useState(false);
-  const [sppiner, setSpinner] = useState(false);
+
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isOpenDrw,
-    onOpen: onOpenDrw,
-    onClose: onCloseDrw,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenAlert,
-    onOpen: onOpenAlert,
-    onClose: onCloseAlert,
-  } = useDisclosure();
+  const [editing, setEditing] = useState(false);
+
+  const bookmarkModal = useDisclosure();
+
+  const drawer = useDisclosure();
+
+  const alert = useDisclosure();
+
   const cancelRef = useRef();
 
   const toast = useToast({});
@@ -89,7 +87,7 @@ const Home = () => {
   };
 
   const onCancel = () => {
-    onClose();
+    bookmarkModal.onClose();
     if (editing) {
       bookmarkForm.setValues({
         url: "",
@@ -103,17 +101,17 @@ const Home = () => {
     bookmarkForm.setValues({ ...bookmark });
     setCurrentIndex(i);
     setEditing(true);
-    onOpen();
+    bookmarkModal.onOpen();
   };
   const onBookmarkDeleteAlert = (index: number) => {
     setCurrentIndex(index);
-    onOpenAlert();
+    alert.onOpen();
   };
 
   const onBookmarkAdd = () => {
     bookmarkForm.setValues(bookmarkForm.values);
     setEditing(false);
-    onOpen();
+    bookmarkModal.onOpen();
   };
 
   const queryPostBookmark = useQuery(
@@ -153,7 +151,7 @@ const Home = () => {
       ),
     {
       enabled: false,
-      onSuccess: (res) => {
+      onSuccess: () => {
         bookmarkForm.setValues({
           url: "",
           title: "",
@@ -161,9 +159,7 @@ const Home = () => {
           tags: [],
         });
       },
-      onError: (err: {
-        response: AxiosResponse<{ message: string; type?: string }>;
-      }) => {
+      onError: (err: { response: AxiosResponse<ResponseAxios> }) => {
         if (err.response.data.type! in BookmarkError) {
           toast({
             title: BookmarkErrorMsg[err.response.data.type! as BookmarkError],
@@ -179,9 +175,7 @@ const Home = () => {
     onSuccess: async (res) => {
       setNameUser(res.data.name);
     },
-    onError: (err) => {
-      console.log(err);
-    },
+    onError: (err) => {},
   });
 
   useEffect(() => {
@@ -202,9 +196,7 @@ const Home = () => {
         };
         await queryGetBookmark.refetch();
       },
-      onError: (err: {
-        response: AxiosResponse<{ message: string; type?: string }>;
-      }) => {
+      onError: (err: { response: AxiosResponse<ResponseAxios> }) => {
         if (err.response.data.type! in BookmarkError) {
           toast({
             title: BookmarkErrorMsg[err.response.data.type! as BookmarkError],
@@ -217,7 +209,7 @@ const Home = () => {
 
   const onDeleteCancel = () => {
     setCurrentIndex(-1);
-    onCloseAlert();
+    alert.onClose();
   };
 
   const onDeleteConfirm = async () => {
@@ -226,7 +218,7 @@ const Home = () => {
   };
 
   const onSaveForm = async () => {
-    onClose();
+    bookmarkModal.onClose();
     setSpinner(true);
     editing
       ? await queryPutBookmark.refetch()
@@ -269,10 +261,10 @@ const Home = () => {
       <DashboardLayout
         title="Home"
         namePage=""
-        nameUser={nameUser}
-        isOpen={isOpenDrw}
-        onOpen={onOpenDrw}
-        onClose={onCloseDrw}
+        user={nameUser}
+        isOpen={drawer.isOpen}
+        onOpen={drawer.onOpen}
+        onClose={drawer.onClose}
         headerComponent={
           <>
             <Flex
@@ -283,10 +275,7 @@ const Home = () => {
               alignItems="center"
             >
               <InputGroup maxW="650px">
-                <InputRightElement
-                  color="#F0F8FF"
-                  //ref={scrollRef}
-                >
+                <InputRightElement color="#F0F8FF">
                   {search === "" ? (
                     <Search2Icon />
                   ) : (
@@ -302,7 +291,6 @@ const Home = () => {
                 <Input
                   color="#F0F8FF"
                   ref={inputRef}
-                  //disabled={skeleton}
                   borderColor="#F0F8FF"
                   focusBorderColor="#F0F8FF"
                   type="text"
@@ -316,8 +304,8 @@ const Home = () => {
         }
       >
         <IconButton
-          zIndex={!isOpen || !isOpenDrw ? "99999" : "0"}
-          isDisabled={isOpen || isOpenDrw ? true : false}
+          zIndex={!bookmarkModal.isOpen || !drawer.isOpen ? "999" : "0"}
+          isDisabled={bookmarkModal.isOpen || drawer.isOpen}
           position="fixed"
           right={{ base: "2rem", md: "5rem" }}
           bottom={{ base: "5%", md: "15%" }}
@@ -336,29 +324,27 @@ const Home = () => {
           ctx={bookmarkForm}
           onSubmit={() => bookmarkForm.submit()}
           title={editing ? "Edit Bookmark" : "Create a Bookmark"}
-          isOpen={isOpen}
+          isOpen={bookmarkModal.isOpen}
           onCancel={onCancel}
           onAddTag={onAddTag}
           onRemoveTag={onRemoveTag}
         />
         <SimpleGrid columns={[1, 4]} mt="1rem" gap={3}>
-          {sppiner && <Spinner />}
-          {!sppiner &&
-            bookmarks
-              .reverse()
-              .map((bookmark, i) => (
-                <BookmarkCard
-                  key={i}
-                  bookmark={bookmark}
-                  onEdit={() => onBookmarkEdit(bookmark, i)}
-                  onDelete={() => onBookmarkDeleteAlert(i)}
-                />
-              ))}
+          {spinner && <Spinner />}
+          {!spinner &&
+            bookmarks.map((bookmark, i) => (
+              <BookmarkCard
+                key={i}
+                bookmark={bookmark}
+                onEdit={() => onBookmarkEdit(bookmark, i)}
+                onDelete={() => onBookmarkDeleteAlert(i)}
+              />
+            ))}
           <DeletAlert
             onConfirm={onDeleteConfirm}
             cancelRef={cancelRef}
-            isOpenAlert={isOpenAlert}
-            onCloseAlert={onCloseAlert}
+            isOpen={alert.isOpen}
+            onClose={alert.onClose}
           />
         </SimpleGrid>
       </DashboardLayout>

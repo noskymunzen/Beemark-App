@@ -1,4 +1,5 @@
 import {
+  isMatchPass,
   isPassword,
   isRequired,
   isString,
@@ -39,9 +40,7 @@ export default function ResetPass() {
       onSuccess: (res) => {
         setIsValid(res.status === 200);
       },
-      onError: (err) => {
-        console.log(err);
-      },
+      onError: (err) => {},
       onSettled: () => {
         setHasFetch(true);
       },
@@ -63,6 +62,7 @@ export default function ResetPass() {
         isString(values.confirmPass),
         isRequired(values.confirmPass),
         isPassword(values.confirmPass || ""),
+        isMatchPass(values.password!, values.confirmPass!),
       ]),
     }),
     onSubmit: () => {
@@ -83,16 +83,14 @@ export default function ResetPass() {
         console.log(res.status === 200);
         toast({
           title: "Password changed.",
-          description: "redirecting to Login...",
+          description: "Try to Login again...",
           status: "success",
         });
         setTimeout(() => {
           router.push("/auth/login");
         }, 3000);
       },
-      onError: (err) => {
-        console.log(err);
-      },
+      onError: (err) => {},
     }
   );
 
@@ -118,7 +116,7 @@ export default function ResetPass() {
 
   return (
     <Flex flexDirection="column">
-      <HeaderMain title="" formShowed={""} isPageResetPass={true} />
+      <HeaderMain title="" formType={""} hideLinks={true} />
       <Container py="1.5rem">
         {queryCode.isLoading && <Spinner />}
         {hasFetch && (
@@ -130,7 +128,7 @@ export default function ResetPass() {
               />
             ) : (
               <Center fontSize="lg">
-                <Text>Link has expired or was already used.</Text>
+                <Text>Link has expired or it was already used.</Text>
               </Center>
             )}
           </>

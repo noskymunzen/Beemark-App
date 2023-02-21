@@ -9,6 +9,7 @@ import { AuthErrorMsg } from "@/services/auth/auth.const";
 import { AuthError } from "@/services/auth/auth.enum";
 import $auth from "@/services/auth/auth.service";
 import { PostLogin } from "@/services/auth/auth.types";
+import { ResponseAxios } from "@/types";
 import {
   Button,
   Container,
@@ -37,9 +38,7 @@ export default function Login() {
       await router.push("/");
       localStorage.setItem("userData", JSON.stringify(res.data));
     },
-    onError: (err) => {
-      console.log(err);
-    },
+    onError: (err) => {},
   });
   const getUserData = async () => {
     await queryUserData.refetch();
@@ -74,9 +73,7 @@ export default function Login() {
         localStorage.setItem("token", res.data.token);
         await router.push("/");
       },
-      onError: (err: {
-        response: AxiosResponse<{ message: string; type?: string }>;
-      }) => {
+      onError: (err: { response: AxiosResponse<ResponseAxios> }) => {
         if (err.response.data.type! in AuthError) {
           toast({
             title: AuthErrorMsg[err.response.data.type! as AuthError],
@@ -109,7 +106,7 @@ export default function Login() {
 
   return (
     <Flex flexDirection="column">
-      <HeaderMain title="Log in" formShowed={"login"} isPageResetPass={false} />
+      <HeaderMain title="Log in" formType={"login"} hideLinks={false} />
       <Container py="1.5rem">
         <>
           <LoginForm ctx={loginForm} onSubmit={() => loginForm.submit()} />

@@ -8,7 +8,8 @@ import useForm from "@/hooks/useForm";
 import { AuthErrorMsg } from "@/services/auth/auth.const";
 import { AuthError } from "@/services/auth/auth.enum";
 import $auth from "@/services/auth/auth.service";
-import { PostRecover, PostSignup } from "@/services/auth/auth.types";
+import { PostRecover } from "@/services/auth/auth.types";
+import { ResponseAxios } from "@/types";
 import {
   Button,
   Container,
@@ -50,13 +51,11 @@ export default function Recover() {
       onSuccess: () => {
         toast({
           title: "You will receive an email within 5 minutes.",
-          description: " Please check email in spam",
+          description: "Please check email in spam",
           status: "success",
         });
       },
-      onError: (err: {
-        response: AxiosResponse<{ message: string; type?: string }>;
-      }) => {
+      onError: (err: { response: AxiosResponse<ResponseAxios> }) => {
         if (err.response.data.type! in AuthError) {
           toast({
             title: AuthErrorMsg[err.response.data.type! as AuthError],
@@ -86,7 +85,7 @@ export default function Recover() {
 
   return (
     <Flex flexDirection="column">
-      <HeaderMain title="" formShowed={"recover"} isPageResetPass={false} />
+      <HeaderMain title="" formType={"recover"} hideLinks={false} />
       <Container py="1.5rem">
         <RecoverForm ctx={recoverForm} onSubmit={() => recoverForm.submit()} />
         <HStack

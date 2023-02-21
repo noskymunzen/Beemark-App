@@ -10,6 +10,7 @@ import { AuthErrorMsg } from "@/services/auth/auth.const";
 import { AuthError } from "@/services/auth/auth.enum";
 import $auth from "@/services/auth/auth.service";
 import { PostSignup } from "@/services/auth/auth.types";
+import { ResponseAxios } from "@/types";
 import {
   Button,
   Container,
@@ -59,6 +60,7 @@ export default function Signup() {
     {
       enabled: false,
       onSuccess: (res) => {
+        // TODO: removes
         console.log(res.data.token);
         localStorage.setItem("token", res.data.token);
         toast({
@@ -69,9 +71,7 @@ export default function Signup() {
           router.push("/auth/login");
         }, 3000);
       },
-      onError: (err: {
-        response: AxiosResponse<{ message: string; type?: string }>;
-      }) => {
+      onError: (err: { response: AxiosResponse<ResponseAxios> }) => {
         console.log(err.response.data.type);
         if (err.response.data.type! in AuthError) {
           toast({
@@ -106,11 +106,7 @@ export default function Signup() {
 
   return (
     <Flex flexDirection="column">
-      <HeaderMain
-        title="Sign up"
-        formShowed={"signup"}
-        isPageResetPass={false}
-      />
+      <HeaderMain title="Sign up" formType={"signup"} hideLinks={false} />
       <Container py="1.5rem">
         <SignupForm ctx={signForm} onSubmit={() => signForm.submit()} />
         <HStack justify="center" mt="0.5rem">

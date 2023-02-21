@@ -2,7 +2,6 @@ import "@/styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
-// import { getTodos, postTodo } from '../my-api'
 
 const queryClient = new QueryClient({
   defaultOptions: {

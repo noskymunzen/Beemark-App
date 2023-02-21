@@ -1,8 +1,10 @@
 export type ValidationResult = true | string;
 
+// TODO: document
 export const solveValidation = (results: ValidationResult[]) =>
   results.find((result) => typeof result === "string") || true;
 
+// TODO: document
 export const isEmail = (email: string) => {
   return (
     !!email
@@ -13,11 +15,14 @@ export const isEmail = (email: string) => {
   );
 };
 
+// TODO: document
 export const isRequired = (value: unknown) => !!value || "Required value";
 
+// TODO: document
 export const isString = (value: unknown) =>
   typeof value === "string" || "Value is not a text";
 
+// TODO: document
 export const isMin = (
   value: string | Array<any>,
   minimum: number,
@@ -25,13 +30,17 @@ export const isMin = (
 ) =>
   value.length >= minimum || `${field} must contains a minimum of ${minimum}`;
 
+// TODO: document
 export const isPassword = (value = "") =>
   solveValidation([isMin(value, 8, "Password")]);
 
-export const comparePass = (value1: string, value2: string) =>
+// TODO: document
+export const isMatchPass = (value1: string, value2: string) =>
   value1 === value2 || "Passwords do not match";
 
+// TODO: document
 export const validUrl = (value: string) => {
+  // TODO: remove comments at end of lines
   const pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
       "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
@@ -41,5 +50,5 @@ export const validUrl = (value: string) => {
       "(\\#[-a-z\\d_]*)?$",
     "i"
   ); // fragment locator
-  return !!pattern.test(value) || "Url is not valid.";
+  return !!pattern.test(value) || "URL is not valid.";
 };

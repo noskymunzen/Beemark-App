@@ -96,11 +96,9 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
               <Button
                 mt="3px"
                 borderColor="gray.300"
-                // TODO: replace with colorScheme variables if possible
-                bg="#E2E8F0"
+                bg="gray.200"
                 _hover={{ bg: "#CBD5E0" }}
                 size="xs"
-                // TODO: replace with onClick={handleAddTag}
                 onClick={handleAddTag}
                 rightIcon={<AddIcon />}
               >
@@ -117,8 +115,7 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
         </ModalBody>
         <ModalFooter>
           <ButtonGroup gap="1">
-            {/* TODO: replace with onClick={onCancel} */}
-            <Button size="sm" onClick={() => onCancel()}>
+            <Button size="sm" onClick={onCancel}>
               Cancel
             </Button>
             <Button

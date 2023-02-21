@@ -45,13 +45,12 @@ const RecoverForm: FC<RecoverFormProps> = ({ ctx, onSubmit }) => {
           <Button
             minW="85px"
             color="white"
-            bg="#0987A0"
+            bg="cyan.700"
             _hover={{ backgroundColor: "#086F83" }}
             type="submit"
             onClick={onSubmit}
           >
-            {/* Send or Submit */}
-            Seek
+            Send
           </Button>
         </ButtonGroup>
       </>
