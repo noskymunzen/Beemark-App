@@ -1,3 +1,4 @@
+import { createEqualValueObject } from "@/helpers/equalObject.helpers";
 import { useState } from "react";
 
 export interface useFormProps<T> {
@@ -12,14 +13,16 @@ const useForm = <T extends object>({
   onSubmit,
 }: useFormProps<T>) => {
   const [values, setValues] = useState<T>(initialValues as T);
-  const initialErrors = Object.keys(initialValues).reduce((acc, fieldName) => {
-    return { ...acc, [fieldName]: false };
-  }, {});
-  const initialTouched = Object.keys(initialValues).reduce((acc, fieldName) => {
-    return { ...acc, [fieldName]: false };
-  }, {});
+  const initialErrors = createEqualValueObject<Record<keyof T, boolean>>(
+    Object.keys(initialValues),
+    false
+  );
+  const initialTouched = createEqualValueObject<Record<keyof T, boolean>>(
+    Object.keys(initialValues),
+    false
+  );
   const [touched, setTouched] =
-    useState<{ [key in keyof T]?: boolean }>(initialTouched);
+    useState<Record<keyof T, boolean>>(initialTouched);
 
   const setField = (field: keyof T, value: T[keyof T]) => {
     setValues({
@@ -34,6 +37,7 @@ const useForm = <T extends object>({
       [field]: true,
     });
   };
+
   const errors: Record<keyof T, boolean> = {
     ...initialErrors,
     ...Object.entries(validate(values)).reduce(
@@ -50,11 +54,7 @@ const useForm = <T extends object>({
 
   const submit = () => {
     if (hasErrors) {
-      setTouched(
-        Object.keys(initialValues).reduce((acc, fieldName) => {
-          return { ...acc, [fieldName]: true };
-        }, {})
-      );
+      setTouched(createEqualValueObject(Object.keys(initialValues), false));
 
       return;
     }
