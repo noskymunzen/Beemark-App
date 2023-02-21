@@ -62,10 +62,9 @@ const SectionCard = ({
             minW="75px"
             variant="outline"
             fontSize="13px"
-            value={btnName}
             isDisabled={saving}
-            onClick={(e: any) => {
-              onChangeBtnName(e.target.value, section);
+            onClick={() => {
+              onChangeBtnName(btnName, section);
             }}
           >
             {btnName}

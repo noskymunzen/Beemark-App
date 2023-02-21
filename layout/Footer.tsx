@@ -9,7 +9,7 @@ const Footer = () => {
       alignItems="center"
       display={{ base: "none", md: "flex" }}
     >
-      <Text>Ninoska Münzenmayer &#169; {new Date().getFullYear()}</Text>
+      <Text>noskymunzen &#169; {new Date().getFullYear()}</Text>
     </Flex>
   );
 };

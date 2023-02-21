@@ -87,7 +87,6 @@ const BookmarkCard = ({ onEdit, onDelete, bookmark }: BookmarkCardProps) => {
             </Text>
             <Container
               display="block"
-              // overflow="hidden"
               height="80px"
               width="300px"
               textOverflow="ellipsis"

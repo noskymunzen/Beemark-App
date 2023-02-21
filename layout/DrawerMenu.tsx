@@ -9,7 +9,6 @@ import {
   Image,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useRef } from "react";
 import { FiHome, FiLogOut, FiMoon, FiSettings } from "react-icons/fi";
 
@@ -21,8 +20,6 @@ export interface DrawerProps {
 
 const DrawerMenu = ({ isOpen, onClose, onLogout }: DrawerProps) => {
   const btnRef = useRef<HTMLButtonElement>(null);
-
-  const router = useRouter();
 
   return (
     <Drawer
