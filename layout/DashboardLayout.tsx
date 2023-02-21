@@ -1,7 +1,7 @@
 import { Container, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import DrawerMenu from "./DrawerMenu";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -10,32 +10,32 @@ export interface DashboardLayoutProps {
   children: any;
   title: string;
   namePage: string;
-  headerComponent?: any;
+  headerComponent?: ReactNode;
   onOpen: () => void;
   onClose: () => void;
   isOpen: boolean;
-  nameUser: string;
+  user: string;
 }
 
 const DashboardLayout = ({
   children,
   title,
   namePage,
-  nameUser,
+  user,
   headerComponent,
   onOpen,
   onClose,
   isOpen,
 }: DashboardLayoutProps) => {
-  const headTitle = useMemo(() => {
-    return title ? `${title} :: BEEMARK` : "BEEMARK";
-  }, [title]);
+  const headTitle = useMemo(
+    () => (title ? `${title} :: BEEMARK` : "BEEMARK"),
+    [title]
+  );
 
   const router = useRouter();
 
   const onLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("userData");
     router.push("/auth/login");
   };
 
@@ -49,7 +49,7 @@ const DashboardLayout = ({
           onOpen={onOpen}
           namePage={namePage}
           onLogout={onLogout}
-          nameUser={nameUser}
+          nameUser={user}
           btnRef={() => {}}
         >
           {headerComponent}
@@ -61,7 +61,7 @@ const DashboardLayout = ({
           height="100vh"
         >
           <Container maxW="container.xl" mt="1.5rem" pt="63px" pb="3rem">
-            {children}{" "}
+            {children}
           </Container>
           <Footer />
         </Flex>

@@ -4,19 +4,16 @@ import Link from "next/link";
 import { useMemo } from "react";
 
 interface HeaderMainProps {
-  formShowed: string;
-  isPageResetPass: boolean;
+  formType: string;
+  hideLinks: boolean;
   title: string;
 }
 
-const HeaderMain = ({
-  formShowed,
-  isPageResetPass,
-  title,
-}: HeaderMainProps) => {
-  const headTitle = useMemo(() => {
-    return title ? ` BEEMARK :: ${title} ` : "BEEMARK";
-  }, [title]);
+const HeaderMain = ({ formType, hideLinks, title }: HeaderMainProps) => {
+  const headTitle = useMemo(
+    () => (title ? ` BEEMARK :: ${title} ` : "BEEMARK"),
+    [title]
+  );
 
   return (
     <>
@@ -40,7 +37,7 @@ const HeaderMain = ({
           minW="271px"
         />
 
-        {!isPageResetPass && (
+        {!hideLinks && (
           <Flex
             gap={5}
             mr={{ base: "1rem", md: "3rem" }}
@@ -50,7 +47,7 @@ const HeaderMain = ({
             <Link href="/auth/login">
               <Button
                 variant="link"
-                color={formShowed === "login" ? "#2D3748" : "#F0F8FF"}
+                color={formType === "login" ? "#2D3748" : "#F0F8FF"}
                 fontWeight="bold"
               >
                 Log in
@@ -60,7 +57,7 @@ const HeaderMain = ({
             <Link href="/auth/signup">
               <Button
                 variant="link"
-                color={formShowed === "signup" ? "#2D3748" : "#F0F8FF"}
+                color={formType === "signup" ? "#2D3748" : "#F0F8FF"}
                 fontWeight="bold"
               >
                 Sign up
