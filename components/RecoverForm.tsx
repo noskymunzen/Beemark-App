@@ -4,9 +4,9 @@ import {
   Button,
   ButtonGroup,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
-  Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { FC } from "react";
@@ -21,7 +21,7 @@ const RecoverForm: FC<RecoverFormProps> = ({ ctx, onSubmit }) => {
   return (
     <BoxForm title=" Recover your account">
       <>
-        <FormControl>
+        <FormControl isInvalid={ctx.touched.email && ctx.errors.email}>
           <FormLabel mt="1rem">
             Enter your email to find your account.
           </FormLabel>
@@ -34,11 +34,7 @@ const RecoverForm: FC<RecoverFormProps> = ({ ctx, onSubmit }) => {
               ctx.setField("email", e.target.value);
             }}
           />
-          {ctx.touched.email && ctx.errors.email && (
-            <Text color="tomato" fontSize="xs">
-              {ctx.errors.email}
-            </Text>
-          )}
+          <FormErrorMessage>{ctx.errors.email}</FormErrorMessage>
         </FormControl>
         <ButtonGroup display="flex" justifyContent="flex-end" mt="1.5rem">
           <Link href="/auth/login">
@@ -54,6 +50,7 @@ const RecoverForm: FC<RecoverFormProps> = ({ ctx, onSubmit }) => {
             type="submit"
             onClick={onSubmit}
           >
+            {/* Send or Submit */}
             Seek
           </Button>
         </ButtonGroup>

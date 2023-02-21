@@ -1,6 +1,12 @@
 import useForm from "@/hooks/useForm";
 import { ResetPasswordForm } from "@/services/auth/auth.types";
-import { Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
 import { FC } from "react";
 import BoxForm from "./BoxForm";
 
@@ -12,7 +18,12 @@ interface ResetPassFormProps {
 const ResetPassForm: FC<ResetPassFormProps> = ({ ctx, onSubmit }) => {
   return (
     <BoxForm title="Reset password">
-      <FormControl display="flex" mt="1rem" flexDirection="column">
+      <FormControl
+        display="flex"
+        mt="1rem"
+        flexDirection="column"
+        isInvalid={ctx.touched.password && ctx.errors.password}
+      >
         <FormLabel minW="100px" fontSize="sm">
           New password
         </FormLabel>
@@ -25,15 +36,16 @@ const ResetPassForm: FC<ResetPassFormProps> = ({ ctx, onSubmit }) => {
             ctx.setField("password", e.target.value);
           }}
         />
-        {ctx.touched.password && ctx.errors.password && (
-          <Text color="tomato" fontSize="xs">
-            {ctx.errors.password}
-          </Text>
-        )}
+        <FormErrorMessage>{ctx.errors.password}</FormErrorMessage>
       </FormControl>
-      <FormControl display="flex" mt="1rem" flexDirection="column">
+      <FormControl
+        display="flex"
+        mt="1rem"
+        flexDirection="column"
+        isInvalid={ctx.touched.confirmPass && ctx.errors.confirmPass}
+      >
         <FormLabel minW="100px" fontSize="sm">
-          Repet new password
+          Repeat new password
         </FormLabel>
         <Input
           type="password"
@@ -44,11 +56,7 @@ const ResetPassForm: FC<ResetPassFormProps> = ({ ctx, onSubmit }) => {
             ctx.setField("confirmPass", e.target.value);
           }}
         />
-        {ctx.touched.confirmPass && ctx.errors.confirmPass && (
-          <Text color="tomato" fontSize="xs">
-            {ctx.errors.confirmPass}
-          </Text>
-        )}
+        <FormErrorMessage>{ctx.errors.confirmPass}</FormErrorMessage>
       </FormControl>
 
       <Button

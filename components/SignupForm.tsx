@@ -1,6 +1,12 @@
 import useForm from "@/hooks/useForm";
 import { PostSignup } from "@/services/auth/auth.types";
-import { Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
 import { FC } from "react";
 import BoxForm from "./BoxForm";
 
@@ -12,7 +18,7 @@ interface SignupFormProps {
 const SignupForm: FC<SignupFormProps> = ({ ctx, onSubmit }) => {
   return (
     <BoxForm title=" User Register">
-      <FormControl>
+      <FormControl isInvalid={ctx.touched.name && ctx.errors.name}>
         <FormLabel mt="1rem">Name</FormLabel>
         <Input
           type="text"
@@ -23,13 +29,9 @@ const SignupForm: FC<SignupFormProps> = ({ ctx, onSubmit }) => {
             ctx.setField("name", e.target.value);
           }}
         />
-        {ctx.touched.name && ctx.errors.name && (
-          <Text color="tomato" fontSize="xs">
-            {ctx.errors.name}
-          </Text>
-        )}
+        <FormErrorMessage>{ctx.errors.name}</FormErrorMessage>
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={ctx.touched.email && ctx.errors.email}>
         <FormLabel mt="1rem">Email address</FormLabel>
         <Input
           type="email"
@@ -40,13 +42,9 @@ const SignupForm: FC<SignupFormProps> = ({ ctx, onSubmit }) => {
             ctx.setField("email", e.target.value);
           }}
         />
-        {ctx.touched.email && ctx.errors.email && (
-          <Text color="tomato" fontSize="xs">
-            {ctx.errors.email}
-          </Text>
-        )}
+        <FormErrorMessage>{ctx.errors.email}</FormErrorMessage>
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={ctx.touched.password && ctx.errors.password}>
         <FormLabel mt="1rem">Password</FormLabel>
         <Input
           type="password"
@@ -57,11 +55,7 @@ const SignupForm: FC<SignupFormProps> = ({ ctx, onSubmit }) => {
             ctx.setField("password", e.target.value);
           }}
         />
-        {ctx.touched.password && ctx.errors.password && (
-          <Text color="tomato" fontSize="xs">
-            {ctx.errors.password}
-          </Text>
-        )}
+        <FormErrorMessage>{ctx.errors.password}</FormErrorMessage>
       </FormControl>
       <Button
         mt="1rem"

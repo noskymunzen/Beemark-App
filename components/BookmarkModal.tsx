@@ -5,6 +5,7 @@ import {
   Button,
   ButtonGroup,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -17,7 +18,6 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
-  Text,
   VStack,
 } from "@chakra-ui/react";
 import { FC, useRef, useState } from "react";
@@ -58,7 +58,7 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
         <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton onClick={() => onCancel()} />
         <ModalBody pb={5}>
-          <FormControl>
+          <FormControl isInvalid={ctx.touched.url && ctx.errors.url}>
             <FormLabel>Url</FormLabel>
             <Input
               placeholder="ex: https://chakra-ui.com/"
@@ -68,13 +68,9 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
                 ctx.setField("url", e.target.value);
               }}
             />
-            {ctx.touched.url && ctx.errors.url && (
-              <Text color="tomato" fontSize="xs">
-                {ctx.errors.url}
-              </Text>
-            )}
+            <FormErrorMessage>{ctx.errors.url}</FormErrorMessage>
           </FormControl>
-          <FormControl mt={2}>
+          <FormControl mt={2} isInvalid={ctx.touched.title && ctx.errors.title}>
             <FormLabel>Title</FormLabel>
             <Input
               placeholder="ex: Chakra UI"
@@ -84,22 +80,8 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
                 ctx.setField("title", e.target.value);
               }}
             />
-            {ctx.touched.title && ctx.errors.title && (
-              <Text color="tomato" fontSize="xs">
-                {ctx.errors.title}
-              </Text>
-            )}
+            <FormErrorMessage>{ctx.errors.title}</FormErrorMessage>
           </FormControl>
-          {/* <FormControl mt={2}>
-            <FormLabel>Excerpt</FormLabel>
-            <Textarea
-              placeholder="ex: Chakra UI is a simple, modular and accessible component library that gives..."
-              value={bookmarkValues.excerpt}
-              onChange={(e) => {
-                onChange("excerpt", e.target.value);
-              }}
-            />
-          </FormControl> */}
           <FormControl mt={2}>
             <FormLabel>Tags</FormLabel>
             <Input
@@ -114,10 +96,12 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
               <Button
                 mt="3px"
                 borderColor="gray.300"
+                // TODO: replace with colorScheme variables if possible
                 bg="#E2E8F0"
                 _hover={{ bg: "#CBD5E0" }}
                 size="xs"
-                onClick={() => handleAddTag()}
+                // TODO: replace with onClick={handleAddTag}
+                onClick={handleAddTag}
                 rightIcon={<AddIcon />}
               >
                 Tag
@@ -133,6 +117,7 @@ const AddMarkModal: FC<AddMarkModalProps> = ({
         </ModalBody>
         <ModalFooter>
           <ButtonGroup gap="1">
+            {/* TODO: replace with onClick={onCancel} */}
             <Button size="sm" onClick={() => onCancel()}>
               Cancel
             </Button>
