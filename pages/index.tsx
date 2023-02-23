@@ -119,12 +119,8 @@ const Home = () => {
     () => $bookmark.postCreateBookmark(bookmarkForm.values),
     {
       enabled: false,
-      onSuccess: (res) => {
-        console.log(res.data);
-      },
-      onError: (err) => {
-        console.log(err);
-      },
+      onSuccess: (res) => {},
+      onError: (err) => {},
     }
   );
 
@@ -136,9 +132,7 @@ const Home = () => {
       onSuccess: (res) => {
         setBookmarks(res.data);
       },
-      onError: (err) => {
-        console.log(err);
-      },
+      onError: (err) => {},
     }
   );
 

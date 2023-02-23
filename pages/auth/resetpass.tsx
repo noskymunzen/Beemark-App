@@ -80,7 +80,6 @@ export default function ResetPass() {
     {
       enabled: false,
       onSuccess: (res) => {
-        console.log(res.status === 200);
         toast({
           title: "Password changed.",
           description: "Try to Login again...",

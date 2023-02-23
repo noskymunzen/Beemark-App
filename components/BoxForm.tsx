@@ -11,7 +11,7 @@ const Form = ({ title, children }: FormProps) => {
       border="2px"
       borderColor="gray.200"
       width="100%"
-      height="100%%"
+      height="100%"
       justifyContent="center"
       pt="0.5rem"
       pb="1.5rem"

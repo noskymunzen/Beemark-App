@@ -54,7 +54,7 @@ const useForm = <T extends object>({
 
   const submit = () => {
     if (hasErrors) {
-      setTouched(createEqualValueObject(Object.keys(initialValues), false));
+      setTouched(createEqualValueObject(Object.keys(initialValues), true));
 
       return;
     }

@@ -60,8 +60,6 @@ export default function Signup() {
     {
       enabled: false,
       onSuccess: (res) => {
-        // TODO: removes
-        console.log(res.data.token);
         localStorage.setItem("token", res.data.token);
         toast({
           title: "Account created successfully",
@@ -72,7 +70,6 @@ export default function Signup() {
         }, 3000);
       },
       onError: (err: { response: AxiosResponse<ResponseAxios> }) => {
-        console.log(err.response.data.type);
         if (err.response.data.type! in AuthError) {
           toast({
             title: AuthErrorMsg[err.response.data.type! as AuthError],

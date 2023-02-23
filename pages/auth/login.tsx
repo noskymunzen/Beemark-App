@@ -34,7 +34,6 @@ export default function Login() {
   const queryUserData = useQuery("getUserData", () => $auth.getUserData(), {
     enabled: false,
     onSuccess: async (res) => {
-      console.log(res.data);
       await router.push("/");
       localStorage.setItem("userData", JSON.stringify(res.data));
     },

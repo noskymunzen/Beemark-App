@@ -46,12 +46,9 @@ const Settings = () => {
   const onChangeBtnName = (value: string, key: string) => {
     if (value === "Cancel") {
       setBtnNames({ ...btnNames, [key]: "Edit" });
-      // TODO: removes
-      console.log("Edit");
       return;
     }
     setBtnNames({ ...btnNames, [key]: "Cancel" });
-    console.log("cancel");
   };
 
   const {
@@ -65,10 +62,7 @@ const Settings = () => {
     onSuccess: async (res) => {
       setUserData(res.data);
     },
-    onError: (err) => {
-      // TODO: removes
-      console.log(err);
-    },
+    onError: (err) => {},
   });
 
   useEffect(() => {
@@ -94,7 +88,6 @@ const Settings = () => {
     {
       enabled: false,
       onSuccess: (res) => {
-        console.log(res.data);
         queryUserData.refetch();
         setBtnNames({ ...btnNames, ["name"]: "Edit" });
         setTimeout(() => {
@@ -102,10 +95,7 @@ const Settings = () => {
         }, 1000);
       },
 
-      onError: (err) => {
-        // TODO: removes
-        console.log(err);
-      },
+      onError: (err) => {},
     }
   );
 
@@ -137,7 +127,6 @@ const Settings = () => {
     {
       enabled: false,
       onSuccess: (res) => {
-        console.log(res.data);
         queryUserData.refetch();
         setBtnNames({ ...btnNames, ["email"]: "Edit" });
         setTimeout(() => {
@@ -145,10 +134,7 @@ const Settings = () => {
         }, 1000);
       },
 
-      onError: (err) => {
-        // TODO: removes
-        console.log(err);
-      },
+      onError: (err) => {},
     }
   );
 
@@ -202,7 +188,6 @@ const Settings = () => {
     {
       enabled: false,
       onSuccess: (res) => {
-        console.log(res.data);
         queryUserData.refetch();
         setBtnNames({ ...btnNames, ["password"]: "Edit" });
         setTimeout(() => {

@@ -80,7 +80,6 @@ export default function Recover() {
 
   const postRecover = async () => {
     await queryrecover.refetch();
-    console.log(queryrecover.status === "success");
   };
 
   return (
