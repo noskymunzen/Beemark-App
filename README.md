@@ -40,7 +40,7 @@ Made using:
 
 ## 📦 Dependencies
 
-- NodeJS v18
+- NodeJS v19
 - NPM v8
 
 ## 📦 Intalation
