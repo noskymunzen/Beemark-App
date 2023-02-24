@@ -9,11 +9,10 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Switch,
   Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { FiLogOut, FiMoon, FiSettings } from "react-icons/fi";
+import { FiLogOut, FiSettings } from "react-icons/fi";
 
 export interface HeaderProps {
   btnRef: () => void;
@@ -85,10 +84,6 @@ const Header = ({
         display={{ base: "none", md: "flex" }}
         justifyContent="flex-end"
       >
-        <HStack>
-          <Icon color="#F0F8FF" as={FiMoon} boxSize="20px" />
-          <Switch colorScheme="teal" size="md" />
-        </HStack>
         <Menu isLazy>
           <MenuButton
             as={Button}

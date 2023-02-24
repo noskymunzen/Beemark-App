@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRef } from "react";
-import { FiHome, FiLogOut, FiMoon, FiSettings } from "react-icons/fi";
+import { FiHome, FiLogOut, FiSettings } from "react-icons/fi";
 
 export interface DrawerProps {
   onClose: () => void;
@@ -66,7 +66,6 @@ const DrawerMenu = ({ isOpen, onClose, onLogout }: DrawerProps) => {
             </Link>
 
             <Flex flexDirection="column" gap="2rem">
-              <Icon width="20px" height="20px" as={FiMoon} />
               <Link href="/settings">
                 <Icon width="20px" height="20px" as={FiSettings} />
               </Link>
