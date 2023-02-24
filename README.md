@@ -1,4 +1,5 @@
-![](./public/beemark.png | width=100)
+
+<img src="./public/beemark.png" width="48">
 
 # Beemark Web App
 
