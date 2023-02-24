@@ -8,14 +8,14 @@ Made using:
 - Chakra UI : UI framework with reusable components
 - Axios : Extensible HTTP client
 
-## 👍 Features
+## 🐝 Features
 
 - [x] Simple web interface
 - [x] Responsive
 - [x] Bookmarks management
 - [x] JWT based authentication
 
-## 🗒 Roadmap
+## 🗺️ Roadmap
 
 - [ ] Dark mode
 - [ ] Bookmark pagination
