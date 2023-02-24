@@ -55,6 +55,13 @@ To install project dependencies, execute command:
 $ npm install
 ```
 
+Then, set required environment variables creating a `.env` file. You can just copy `.env.example` by using:
+```bash
+$ cp .env.example .env
+```
+and modifies it.
+
+
 ## 🖥 Execution
 
 #### Development server
