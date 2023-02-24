@@ -44,9 +44,9 @@ Made using:
 - NodeJS v19
 - NPM v8
 
-## 📦 Intalation
+## 📦 Installation
 
-To install dependencies of proyect, use the command:
+To install project dependencies, execute command:
 
 ```bash
 $ npm install
@@ -56,7 +56,7 @@ $ npm install
 
 #### Development server
 
-To execute development server, use the command:
+To execute development server, execute command:
 
 ```bash
 $ npm run dev
@@ -64,14 +64,13 @@ $ npm run dev
 
 #### Conventional server
 
-It is necessary the project is built.
-For this use the command:
+To run built-in server, application pre-compiling is required. First run:
 
 ```bash
 $ npm run build
 ```
 
-Once it is built, run the used server:
+Then just run built-in server using command:
 
 ```bash
 $ npm run start
