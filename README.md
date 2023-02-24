@@ -1,3 +1,5 @@
+![](./public/beemark.png | width=100)
+
 # Beemark Web App
 
 Beemark is a web application to manage bookmarks in a simple way.
