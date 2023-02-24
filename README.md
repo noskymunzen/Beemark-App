@@ -1,5 +1,5 @@
 
-<img src="./public/beemark.png" width="48">
+<img src="./public/beemark.png" width="300">
 
 # Beemark Web App
 
