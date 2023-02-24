@@ -1,6 +1,7 @@
 # Beemark Web App
 
 Beemark is a web application to manage bookmarks in a simple way.
+
 Made using:
 
 - NextJS(TS) : Fullstack framework based on ReactJS
