@@ -119,8 +119,15 @@ const Home = () => {
     () => $bookmark.postCreateBookmark(bookmarkForm.values),
     {
       enabled: false,
-      onSuccess: (res) => {},
-      onError: (err) => {},
+      onSuccess: () => {
+        bookmarkForm.setValues({
+          url: "",
+          title: "",
+          excerpt: "",
+          tags: [],
+        });
+      },
+      onError: () => {},
     }
   );
 
@@ -132,7 +139,7 @@ const Home = () => {
       onSuccess: (res) => {
         setBookmarks(res.data);
       },
-      onError: (err) => {},
+      onError: () => {},
     }
   );
 
@@ -169,7 +176,7 @@ const Home = () => {
     onSuccess: async (res) => {
       setNameUser(res.data.name);
     },
-    onError: (err) => {},
+    onError: () => {},
   });
 
   useEffect(() => {
