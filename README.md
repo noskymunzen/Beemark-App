@@ -11,7 +11,7 @@ Made using:
 - Chakra UI : UI framework with reusable components
 - Axios : Extensible HTTP client
 
-Repository Beemark API: https://github.com/noskymunzen/Beemark-Api
+Beemark API Repository: https://github.com/noskymunzen/Beemark-Api
 
 ## 🐝 Features
 
